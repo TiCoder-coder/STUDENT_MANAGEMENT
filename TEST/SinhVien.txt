@@ -1,0 +1,43 @@
+LOGIN:
+
+POST ONE:
+{
+  "MasoSinhVien": "123456789",
+  "HoVaTenSinhVien": "lê thanh",
+  "NgaySinh": "2006-01-06T14:04:26.552Z",
+  "GioiTinhHocSinh": "Nu",
+  "NoiSinh": "Cao bằng",
+  "ChuyenNghanh": "Kỹ thuật ô tÔ",
+  "KhoaHoc": 2023,
+  "TrangThai": "Danghoc",
+  "VaiTro": "SinhVien",
+  "Email": "lethanh0601@gmail.com",
+  "UserName": "lethanh",
+  "Password": "Lethanh@0601",
+  "SoLamDangNhapThatBai": 0,
+  "KhongChoDangNhapToi": null
+}
+
+GET ONE:123456789
+
+GET ALL: [EXECUTE]
+
+UPDATE ONE:
+{
+  "MasoSinhVien": "123456789",
+  "HoVaTenSinhVien": "lê thanh",
+  "NgaySinh": "2006-01-06T14:07:07.955Z",
+  "GioiTinhHocSinh": "Nu",
+  "NoiSinh": "Cao bằng",
+  "ChuyenNghanh": "Cơ điện tử",
+  "KhoaHoc": 2024,
+  "TrangThai": "Danghoc",
+  "VaiTro": "SinhVien",
+  "Email": "lethanh0601@gmail.com",
+  "UserName": "lethanh",
+  "Password": "Lethanh@0601",
+  "SoLamDangNhapThatBai": 0,
+  "KhongChoDangNhapToi": "2006-01-06T14:07:07.955Z"
+}
+DELETE ONE:123456789
+

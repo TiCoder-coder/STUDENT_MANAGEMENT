@@ -1,0 +1,20 @@
+{
+  "entryFile": "server.ts",
+  "controllerPathGlobs": ["Controller/**/*.ts"],
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "spec": {
+    "outputDirectory": "src/tsoa",
+    "specVersion": 3,
+    "securityDefinitions": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "src/tsoa",
+    "authenticationModule": "Middleware/CheckToken.ts"
+  }
+}

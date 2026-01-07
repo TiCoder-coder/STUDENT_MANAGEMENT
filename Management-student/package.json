@@ -1,0 +1,56 @@
+{
+  "name": "management-student",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "seed": "TSX_TSCONFIG_PATH=tsconfig.api.json tsx ./scripts/InsertDataBaseBanDau.ts",
+    "tsoa:gen": "tsoa spec-and-routes --tsconfig tsconfig.api.json",
+    "dev:api": "npm run tsoa:gen && TSX_TSCONFIG_PATH=tsconfig.api.json tsx watch --tsconfig ./tsconfig.api.json ./server.ts",
+    "api": "npm run dev:api"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
+    "bcryptjs": "^3.0.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.3",
+    "connect": "^3.7.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "dto": "^0.0.1",
+    "express": "^4.21.2",
+    "helmet": "^8.1.0",
+    "http2": "^3.3.6",
+    "js-yaml": "^4.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^7.0.0",
+    "morgan": "^1.10.1",
+    "path": "^0.12.7",
+    "promise": "^8.3.0",
+    "reflect-metadata": "^0.2.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^24.10.4",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "tsoa": "^6.6.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.2"
+  },
+  "overrides": {
+    "vite": "npm:rolldown-vite@7.2.5"
+  }
+}

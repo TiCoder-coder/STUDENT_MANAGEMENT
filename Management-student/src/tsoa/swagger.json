@@ -1,0 +1,1798 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"GioiTinh": {
+				"enum": [
+					"Nam",
+					"Nu",
+					"Khac"
+				],
+				"type": "string"
+			},
+			"TrangThaiHoatDong": {
+				"enum": [
+					"Danghoc",
+					"TamNgunghoc",
+					"KhongConHoc"
+				],
+				"type": "string"
+			},
+			"VaiTroNguoiDung": {
+				"enum": [
+					"SinhVien",
+					"GiangVien",
+					"Admin"
+				],
+				"type": "string"
+			},
+			"CreateSinhVien": {
+				"properties": {
+					"MasoSinhVien": {
+						"type": "string"
+					},
+					"HoVaTenSinhVien": {
+						"type": "string"
+					},
+					"NgaySinh": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"GioiTinhHocSinh": {
+						"$ref": "#/components/schemas/GioiTinh"
+					},
+					"NoiSinh": {
+						"type": "string"
+					},
+					"ChuyenNghanh": {
+						"type": "string"
+					},
+					"KhoaHoc": {
+						"type": "number",
+						"format": "double"
+					},
+					"TrangThai": {
+						"$ref": "#/components/schemas/TrangThaiHoatDong"
+					},
+					"VaiTro": {
+						"$ref": "#/components/schemas/VaiTroNguoiDung"
+					},
+					"Email": {
+						"type": "string"
+					},
+					"UserName": {
+						"type": "string"
+					},
+					"Password": {
+						"type": "string"
+					},
+					"SoLamDangNhapThatBai": {
+						"type": "number",
+						"format": "double",
+						"default": 0
+					},
+					"KhongChoDangNhapToi": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true,
+						"default": null
+					}
+				},
+				"required": [
+					"MasoSinhVien",
+					"HoVaTenSinhVien",
+					"NgaySinh",
+					"GioiTinhHocSinh",
+					"NoiSinh",
+					"ChuyenNghanh",
+					"KhoaHoc",
+					"TrangThai",
+					"Email",
+					"UserName",
+					"Password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateSinhVien": {
+				"properties": {
+					"MasoSinhVien": {
+						"type": "string"
+					},
+					"HoVaTenSinhVien": {
+						"type": "string"
+					},
+					"NgaySinh": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"GioiTinhHocSinh": {
+						"$ref": "#/components/schemas/GioiTinh"
+					},
+					"NoiSinh": {
+						"type": "string"
+					},
+					"ChuyenNghanh": {
+						"type": "string"
+					},
+					"KhoaHoc": {
+						"type": "number",
+						"format": "double"
+					},
+					"TrangThai": {
+						"$ref": "#/components/schemas/TrangThaiHoatDong"
+					},
+					"VaiTro": {
+						"$ref": "#/components/schemas/VaiTroNguoiDung"
+					},
+					"Email": {
+						"type": "string"
+					},
+					"UserName": {
+						"type": "string"
+					},
+					"Password": {
+						"type": "string"
+					},
+					"SoLamDangNhapThatBai": {
+						"type": "number",
+						"format": "double"
+					},
+					"KhongChoDangNhapToi": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"MasoSinhVien",
+					"HoVaTenSinhVien",
+					"NgaySinh",
+					"GioiTinhHocSinh",
+					"NoiSinh",
+					"ChuyenNghanh",
+					"KhoaHoc",
+					"TrangThai",
+					"Email",
+					"UserName",
+					"Password",
+					"SoLamDangNhapThatBai",
+					"KhongChoDangNhapToi"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreatePhanCongGiangDay": {
+				"properties": {
+					"MaSoGiangVien": {
+						"type": "string"
+					},
+					"MaLopHocPhan": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"MaSoGiangVien",
+					"MaLopHocPhan"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PhanCongGiangDay": {
+				"properties": {
+					"MaSoGiangVien": {
+						"type": "string"
+					},
+					"MaLopHocPhan": {
+						"type": "string"
+					},
+					"createAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updateAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"MaSoGiangVien",
+					"MaLopHocPhan"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdatePhanCongGiangDay": {
+				"properties": {
+					"MaSoGiangVien": {
+						"type": "string"
+					},
+					"MaLopHocPhan": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"MaSoGiangVien",
+					"MaLopHocPhan"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MonHocBatBuoc": {
+				"enum": [
+					"Co",
+					"Khong"
+				],
+				"type": "string"
+			},
+			"HinhThucHoc": {
+				"enum": [
+					"Online",
+					"Offline"
+				],
+				"type": "string"
+			},
+			"CreateMonHoc": {
+				"properties": {
+					"MaMonHoc": {
+						"type": "string"
+					},
+					"TenMonHoc": {
+						"type": "string"
+					},
+					"BatBuoc": {
+						"$ref": "#/components/schemas/MonHocBatBuoc"
+					},
+					"SoTinChi": {
+						"type": "number",
+						"format": "double"
+					},
+					"HocPhiMonHoc": {
+						"type": "number",
+						"format": "double"
+					},
+					"HinhThucHoc": {
+						"$ref": "#/components/schemas/HinhThucHoc"
+					}
+				},
+				"required": [
+					"MaMonHoc",
+					"TenMonHoc",
+					"SoTinChi",
+					"HocPhiMonHoc",
+					"HinhThucHoc"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateMonHoc": {
+				"properties": {
+					"MaMonHoc": {
+						"type": "string"
+					},
+					"TenMonHoc": {
+						"type": "string"
+					},
+					"BatBuoc": {
+						"$ref": "#/components/schemas/MonHocBatBuoc"
+					},
+					"SoTinChi": {
+						"type": "number",
+						"format": "double"
+					},
+					"HocPhiMonHoc": {
+						"type": "number",
+						"format": "double"
+					},
+					"HinhThucHoc": {
+						"$ref": "#/components/schemas/HinhThucHoc"
+					}
+				},
+				"required": [
+					"MaMonHoc",
+					"TenMonHoc",
+					"SoTinChi",
+					"HocPhiMonHoc",
+					"HinhThucHoc"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TrangThaiLopHoc": {
+				"enum": [
+					"DangHoatDong",
+					"NgungHoatDong"
+				],
+				"type": "string"
+			},
+			"CreateMaLopHocPhan": {
+				"properties": {
+					"MaLopHocPhan": {
+						"type": "string"
+					},
+					"MaMonHoc": {
+						"type": "string"
+					},
+					"NgayBatDau": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"NgayKetThuc": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"SoSinhVienToiThieu": {
+						"type": "number",
+						"format": "double"
+					},
+					"SoSinhVienToiDa": {
+						"type": "number",
+						"format": "double"
+					},
+					"SoSinhVienHienTai": {
+						"type": "number",
+						"format": "double"
+					},
+					"TrangThaiLopHoc": {
+						"$ref": "#/components/schemas/TrangThaiLopHoc"
+					}
+				},
+				"required": [
+					"MaLopHocPhan",
+					"MaMonHoc",
+					"NgayBatDau",
+					"NgayKetThuc",
+					"SoSinhVienToiThieu",
+					"SoSinhVienToiDa",
+					"SoSinhVienHienTai",
+					"TrangThaiLopHoc"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateMaLopHocPhan": {
+				"properties": {
+					"MaLopHocPhan": {
+						"type": "string"
+					},
+					"MaMonHoc": {
+						"type": "string"
+					},
+					"NgayBatDau": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"NgayKetThuc": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"SoSinhVienToiThieu": {
+						"type": "number",
+						"format": "double"
+					},
+					"SoSinhVienToiDa": {
+						"type": "number",
+						"format": "double"
+					},
+					"SoSinhVienHienTai": {
+						"type": "number",
+						"format": "double"
+					},
+					"TrangThaiLopHoc": {
+						"$ref": "#/components/schemas/TrangThaiLopHoc"
+					}
+				},
+				"required": [
+					"MaLopHocPhan",
+					"MaMonHoc",
+					"NgayBatDau",
+					"NgayKetThuc",
+					"SoSinhVienToiThieu",
+					"SoSinhVienToiDa",
+					"SoSinhVienHienTai",
+					"TrangThaiLopHoc"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TrangThaiHoatDongGiangVien": {
+				"enum": [
+					"DangDay",
+					"TamNgungDay",
+					"KhongConDay"
+				],
+				"type": "string"
+			},
+			"CreateGiangVien": {
+				"properties": {
+					"MaSoGiangVien": {
+						"type": "string"
+					},
+					"TenGiangVien": {
+						"type": "string"
+					},
+					"NgaySinh": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"NoiSinh": {
+						"type": "string"
+					},
+					"GioiTinhGiangVien": {
+						"$ref": "#/components/schemas/GioiTinh"
+					},
+					"ChuyenNghanh": {
+						"type": "string"
+					},
+					"TrangThai": {
+						"$ref": "#/components/schemas/TrangThaiHoatDongGiangVien"
+					},
+					"VaiTro": {
+						"$ref": "#/components/schemas/VaiTroNguoiDung"
+					},
+					"Email": {
+						"type": "string"
+					},
+					"UserName": {
+						"type": "string"
+					},
+					"Password": {
+						"type": "string"
+					},
+					"SoLamDangNhapThatBai": {
+						"type": "number",
+						"format": "double",
+						"default": 0
+					},
+					"KhongChoDangNhapToi": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true,
+						"default": null
+					}
+				},
+				"required": [
+					"MaSoGiangVien",
+					"TenGiangVien",
+					"NgaySinh",
+					"NoiSinh",
+					"GioiTinhGiangVien",
+					"ChuyenNghanh",
+					"TrangThai",
+					"Email",
+					"UserName",
+					"Password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateGiangVien": {
+				"properties": {
+					"MaSoGiangVien": {
+						"type": "string"
+					},
+					"TenGiangVien": {
+						"type": "string"
+					},
+					"NgaySinh": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"NoiSinh": {
+						"type": "string"
+					},
+					"GioiTinhGiangVien": {
+						"$ref": "#/components/schemas/GioiTinh"
+					},
+					"ChuyenNghanh": {
+						"type": "string"
+					},
+					"TrangThai": {
+						"$ref": "#/components/schemas/TrangThaiHoatDongGiangVien"
+					},
+					"VaiTro": {
+						"$ref": "#/components/schemas/VaiTroNguoiDung"
+					},
+					"Email": {
+						"type": "string"
+					},
+					"UserName": {
+						"type": "string"
+					},
+					"Password": {
+						"type": "string"
+					},
+					"SoLamDangNhapThatBai": {
+						"type": "number",
+						"format": "double",
+						"default": 0
+					},
+					"KhongChoDangNhapToi": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true,
+						"default": null
+					}
+				},
+				"required": [
+					"MaSoGiangVien",
+					"TenGiangVien",
+					"NgaySinh",
+					"NoiSinh",
+					"GioiTinhGiangVien",
+					"ChuyenNghanh",
+					"TrangThai",
+					"Email",
+					"UserName",
+					"Password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"DangNhapDto": {
+				"properties": {
+					"UserName": {
+						"type": "string"
+					},
+					"Password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"UserName",
+					"Password"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TrangThaiDangKi": {
+				"enum": [
+					"DaDangKi",
+					"DaHuy"
+				],
+				"type": "string"
+			},
+			"CreateDangKihocPhan": {
+				"properties": {
+					"MasoSinhVien": {
+						"type": "string"
+					},
+					"MaMonHoc": {
+						"type": "string"
+					},
+					"MaLopHocPhan": {
+						"type": "string"
+					},
+					"TrangThaiDangKi": {
+						"$ref": "#/components/schemas/TrangThaiDangKi"
+					}
+				},
+				"required": [
+					"MasoSinhVien",
+					"MaMonHoc",
+					"MaLopHocPhan"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	},
+	"info": {
+		"title": "management-student",
+		"version": "0.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/API/v1/SinhVien/PostSinhVien": {
+			"post": {
+				"operationId": "PostSinhVien",
+				"responses": {
+					"201": {
+						"description": "Insert sinh viên thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"SinhVien"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateSinhVien"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/SinhVien/GetOneSinhVien/{MasoSinhVien}": {
+			"get": {
+				"operationId": "GetOneSinhVien",
+				"responses": {
+					"200": {
+						"description": "Lấy thông tin sinh viên thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"SinhVien"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MasoSinhVien",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/API/v1/SinhVien/GetAllSinhVien": {
+			"get": {
+				"operationId": "GetAllSinhVien",
+				"responses": {
+					"200": {
+						"description": "Lấy thông tin tất cả sinh viên thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"SinhVien"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/API/v1/SinhVien/UpdateOneSinhVien/{MasoSinhVien}": {
+			"put": {
+				"operationId": "UpdateOneSinhVien",
+				"responses": {
+					"200": {
+						"description": "Cập nhập thông tin sinh viên thành công.",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"SinhVien"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MasoSinhVien",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateSinhVien"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/SinhVien/DeleteOneSinhVien/{MasoSinhVien}": {
+			"delete": {
+				"operationId": "DeleteOneSinhVien",
+				"responses": {
+					"200": {
+						"description": "Xoá sinh viên thành công.",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"SinhVien"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MasoSinhVien",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/API/v1/PhanCongGiangDay/CreatePhanCongGiangDay": {
+			"post": {
+				"operationId": "CreatePhanCongGiangDay",
+				"responses": {
+					"201": {
+						"description": "Tạo thành công",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/CreatePhanCongGiangDay"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"PhanCongGiangDay"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreatePhanCongGiangDay"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/PhanCongGiangDay/TimkiemPhanCongGiangDay/{MaSoGiangVien}/{MaLopHocPhan}": {
+			"get": {
+				"operationId": "TimkiemPhanCongGiangDay",
+				"responses": {
+					"200": {
+						"description": "Tìm kiếm thành công",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {
+											"$ref": "#/components/schemas/PhanCongGiangDay"
+										},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"PhanCongGiangDay"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MaSoGiangVien",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "MaLopHocPhan",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/API/v1/PhanCongGiangDay/LietKePhanCongHocPhan": {
+			"get": {
+				"operationId": "LietKePhanCongHocPhan",
+				"responses": {
+					"200": {
+						"description": "Liệt kê thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"PhanCongGiangDay"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/API/v1/PhanCongGiangDay/CapNhapLopHocPhan/{MaLopHocPhan}": {
+			"put": {
+				"operationId": "CapNhapLopHocPhan",
+				"responses": {
+					"200": {
+						"description": "Cập nhập thành công",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"PhanCongGiangDay"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MaLopHocPhan",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdatePhanCongGiangDay"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/PhanCongGiangDay/XoaLopHocPhan/{MaSoGiangVien}/{MaLopHocPhan}": {
+			"delete": {
+				"operationId": "XoaLopHocPhan",
+				"responses": {
+					"200": {
+						"description": "Xoá thành công",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"PhanCongGiangDay"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MaSoGiangVien",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "MaLopHocPhan",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/API/v1/MonHoc/CreateMonHoc": {
+			"post": {
+				"operationId": "CreateMonHoc",
+				"responses": {
+					"201": {
+						"description": "Tạo thành công.",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"MonHoc"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateMonHoc"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/MonHoc/GetOneMonHoc/{MaMonHoc}": {
+			"get": {
+				"operationId": "GetOneMonHoc",
+				"responses": {
+					"200": {
+						"description": "Tìm kiếm thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"MonHoc"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MaMonHoc",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/API/v1/MonHoc/GetAllMonHoc": {
+			"get": {
+				"operationId": "GetAllMonHoc",
+				"responses": {
+					"200": {
+						"description": "Liệt kê thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"MonHoc"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/API/v1/MonHoc/CapNhapMonHoc/{MaMonHoc}": {
+			"put": {
+				"operationId": "CapNhapMonHoc",
+				"responses": {
+					"200": {
+						"description": "Cập nhập thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"MonHoc"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MaMonHoc",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateMonHoc"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/MonHoc/DeleteMonHoc/{MaMonHoc}": {
+			"delete": {
+				"operationId": "DeleteMonHoc",
+				"responses": {
+					"200": {
+						"description": "Xoá thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"MonHoc"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MaMonHoc",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/API/v1/LopHoc/CreateLopHoc": {
+			"post": {
+				"operationId": "CreateLopHoc",
+				"responses": {
+					"201": {
+						"description": "Tạo thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"LopHoc"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateMaLopHocPhan"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/LopHoc/GetOneLopHoc/{MaLopHocPhan}": {
+			"get": {
+				"operationId": "GetOneLopHoc",
+				"responses": {
+					"200": {
+						"description": "Tìm kiếm thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"LopHoc"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MaLopHocPhan",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/API/v1/LopHoc/GetAllLopHoc": {
+			"get": {
+				"operationId": "GetAllLopHoc",
+				"responses": {
+					"200": {
+						"description": "Liệt kê thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"LopHoc"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/API/v1/LopHoc/UpdateLopHoc/{MaLopHocPhan}": {
+			"put": {
+				"operationId": "UpdateMonHoc",
+				"responses": {
+					"200": {
+						"description": "Cập nhập thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"LopHoc"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MaLopHocPhan",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateMaLopHocPhan"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/LopHoc/DeleteMonHoc/{MaLopHocPhan}": {
+			"delete": {
+				"operationId": "DeleteMonHoc",
+				"responses": {
+					"200": {
+						"description": "Xoá thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"LopHoc"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MaLopHocPhan",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/API/v1/GiangVien/CreateGiangVien": {
+			"post": {
+				"operationId": "PostGiangVien",
+				"responses": {
+					"201": {
+						"description": "Insert giảng viên thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"GiangVien"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateGiangVien"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/GiangVien/GetOneGiangVien/{MaSoGiangVien}": {
+			"get": {
+				"operationId": "GetOneGiangVien",
+				"responses": {
+					"200": {
+						"description": "Lấy thông tin giảng viên thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"GiangVien"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MaSoGiangVien",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/API/v1/GiangVien/GetAllGiangVien": {
+			"get": {
+				"operationId": "GetAllSinhVien",
+				"responses": {
+					"200": {
+						"description": "Lấy thông tin tất cả giảng viên thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"GiangVien"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/API/v1/GiangVien/UpdateOneGiangVien/{MaSoGiangVien}": {
+			"put": {
+				"operationId": "UpdateOneSinhVien",
+				"responses": {
+					"200": {
+						"description": "Cập nhập thông tin giảng viên thành công.",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"GiangVien"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MaSoGiangVien",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateGiangVien"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/GiangVien/DeleteOneGiangVien/{MaSoGiangVien}": {
+			"delete": {
+				"operationId": "DeleteOneSinhVien",
+				"responses": {
+					"200": {
+						"description": "Xoá giảng viên thành công.",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"GiangVien"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MaSoGiangVien",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/API/v1/DangNhap/Login/{UserName}/{Password}": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Đăng nhập thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"DangNhap"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/DangNhapDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/DangNhap/LoginAgain": {
+			"post": {
+				"operationId": "LoginAgain",
+				"responses": {
+					"200": {
+						"description": "Đăng nhập lại thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"DangNhap"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"RefreshToken": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"RefreshToken"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/DangNhap/Logout": {
+			"post": {
+				"operationId": "Logout",
+				"responses": {
+					"200": {
+						"description": "Logout thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"DangNhap"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"RefreshToken": {
+										"type": "string"
+									}
+								},
+								"required": [
+									"RefreshToken"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/DangKiHocPhan/CreateDangKiHocPhan": {
+			"post": {
+				"operationId": "CreateDangKiHocPhan",
+				"responses": {
+					"201": {
+						"description": "Tạo thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"DangKiHocPhan"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateDangKihocPhan"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/API/v1/DangKiHocPhan/TimKiemLopHocPhanDaDangKi/{MasoSinhVien}/{MaMonHoc}": {
+			"get": {
+				"operationId": "TImKiemLopHocPhanDaDangKi",
+				"responses": {
+					"200": {
+						"description": "Tìm kiếm thành công",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"data": {},
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"data",
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"DangKiHocPhan"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MasoSinhVien",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "MaMonHoc",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/API/v1/DangKiHocPhan/DoiLophocPhan/{MasoSinhVien}/{MaMonHoc}/{MaLopHocPhan}": {
+			"put": {
+				"operationId": "DoiLophocPhan",
+				"responses": {
+					"200": {
+						"description": "Đã đổi học phần thành công",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"DangKiHocPhan"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MasoSinhVien",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "MaMonHoc",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "MaLopHocPhan",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/API/v1/DangKiHocPhan/HuyDangKiHocPhan/{MasoSinhVien}/{MaMonHoc}": {
+			"delete": {
+				"operationId": "HuyDangKiHocPhan",
+				"responses": {
+					"200": {
+						"description": "Huỷ thành công",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"DangKiHocPhan"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "MasoSinhVien",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "MaMonHoc",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

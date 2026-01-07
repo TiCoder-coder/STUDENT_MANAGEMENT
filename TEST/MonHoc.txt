@@ -1,0 +1,27 @@
+POST ONE:
+
+{
+  "MaMonHoc": "mh123",
+  "TenMonHoc": "toán caO cẤp",
+  "BatBuoc": "Co",
+  "SoTinChi": 4,
+  "HocPhiMonHoc": 4000000,
+  "HinhThucHoc": "Online"
+}
+
+GET ONE:mh123
+
+GET ALL:[EXECUTE]
+
+UPDATE ONE:
+
+{
+  "MaMonHoc": "mh123",
+  "TenMonHoc": "toán caO cẤp",
+  "BatBuoc": "Co",
+  "SoTinChi": 55,
+  "HocPhiMonHoc": 5000000,
+  "HinhThucHoc": "Offline"
+}
+
+DELETE ONE:mh123

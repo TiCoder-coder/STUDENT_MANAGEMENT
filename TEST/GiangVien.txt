@@ -1,0 +1,42 @@
+LOGIN:
+
+POST ONE:
+
+{
+  "MaSoGiangVien": "4123",
+  "TenGiangVien": "Lê Văn Minh",
+  "NgaySinh": "2001-01-06T10:40:37.714Z",
+  "NoiSinh": "Kiên Giang",
+  "GioiTinhGiangVien": "Nu",
+  "ChuyenNghanh": "Logistic",
+  "TrangThai": "DangDay",
+  "VaiTro": "GiangVien",
+  "Email": "LeVanMinh0106@gmail.com",
+  "UserName": "LevanMinh",
+  "Password": "LeMinh@125",
+  "SoLamDangNhapThatBai": 0,
+  "KhongChoDangNhapToi": null
+}
+GET ONE:4123
+
+GET ALL:[EXECUTE]
+
+UPDATE ONE:
+
+{
+  "MaSoGiangVien": "4123",
+  "TenGiangVien": "Lê Văn Minh",
+  "NgaySinh": "2006-01-06T14:22:49.217Z",
+  "NoiSinh": "Kiên Giang",
+  "GioiTinhGiangVien": "Nam",
+  "ChuyenNghanh": "Logistic",
+  "TrangThai": "DangDay",
+  "VaiTro": "GiangVien",
+  "Email": "LeVanMinh0106@gmail.com",
+  "UserName": "LevanMinh",
+  "Password": "LeMinh@125",
+  "SoLamDangNhapThatBai": 0,
+  "KhongChoDangNhapToi": null
+}
+
+DELETE ONE:4123
