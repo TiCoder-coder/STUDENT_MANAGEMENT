@@ -35,7 +35,7 @@
 Dự án này là một **backend API** phục vụ cho bài toán **quản lý đào tạo** (đăng ký học phần).
 
 ✨ Điểm nổi bật:
-- 🧩 Tách lớp rõ ràng theo mô hình **Controller → Service → Dtos → Repository**
+- 🧩 Tách lớp rõ ràng theo mô hình **Controller → Dtos → Service → Repository**
 - 🔐 **JWT Access/Refresh Token** + **Phân quyền** (Admin / Sinh viên / Giảng viên)
 - ✅ Validate dữ liệu vào bằng **class-validator** & **class-transformer**
 - 📚 Sinh Swagger docs tự động bằng **tsoa** (OpenAPI)
