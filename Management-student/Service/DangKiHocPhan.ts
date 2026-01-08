@@ -16,7 +16,7 @@ export class DangKihocPhanServices{
     // Hàm dùng để đăng kí học phần cho sinh viên
     async createOneDangKiHocPhan(userRole: string, dangkihocphan: CreateDangKihocPhan){
         try {
-            RequireSinhVienOrAdmin(userRole)// Chỉ có admin và sinh viên mới được sử dụng hàm này 
+            RequireSinhVienOrAdmin(userRole);// Chỉ có admin và sinh viên mới được sử dụng hàm này 
 
             // Kiểm tra mã số sinh viên có tồn tại không
             const sinhvienRepositories = new SinhVienRepositories();
@@ -28,23 +28,23 @@ export class DangKihocPhanServices{
             const checkLopHocPhan = await lophocphanRepositories.FindOneLopHocPhan(dangkihocphan.MaLopHocPhan);
             if (!checkLopHocPhan) { throw new Error("Lớp học phần không tồn tại."); }
             if (checkLopHocPhan.SoSinhVienHienTai + 1 > checkLopHocPhan.SoSinhVienToiDa ) {
-                throw new Error("Lớp học phần đã đủ số lượng không thể đăng kí")
+                throw new Error("Lớp học phần đã đủ số lượng không thể đăng kí");
             }
             
             // Kiểm tra môn học mà sinh viên muốn đăng kí có tồn tại hay không
-            const monhocReporitories = new MonHocRepositories()
-            const checkMonHoc = await monhocReporitories.FindOneMonHoc(dangkihocphan.MaMonHoc)
+            const monhocReporitories = new MonHocRepositories();
+            const checkMonHoc = await monhocReporitories.FindOneMonHoc(dangkihocphan.MaMonHoc);
             if (!checkMonHoc) {throw new Error("Mã môn không tồn tại."); }
 
             // Kiểm tra lớp học có đúng môn hay không
             if (checkLopHocPhan.MaMonHoc !== dangkihocphan.MaMonHoc) {
-                throw new Error("Lớp học phần không thuộc môn học này.")}
+                throw new Error("Lớp học phần không thuộc môn học này."); }
             
 
             // Kiểm tra sinhh viên đã đăng kí môn học này hay chưa, nếu có ròi thì không đưọc đăng kí thêm một lớp khác
             const dangkihocphanRepositories = new DangKiHocPhanRepositories();
             if (await dangkihocphanRepositories.FindOneMonHocByMasoSinhVien(dangkihocphan.MasoSinhVien, dangkihocphan.MaMonHoc)){
-                throw new Error("Môn học này sinh viên đã đăng kí không thể đăng kí lại.")
+                throw new Error("Môn học này sinh viên đã đăng kí không thể đăng kí lại.");
             }
 
             // // Lấy thông tin của tất cả các môn học mà sinh viên đã đăng kí để kiểm tra sinh viên đó có đăng kí vượt số tín chỉ cho phép hay chưa
@@ -97,7 +97,7 @@ export class DangKihocPhanServices{
             const dangkihocphanRepostitories = new DangKiHocPhanRepositories();
             const checklophocphan = await dangkihocphanRepostitories.FindOneMonHocByMasoSinhVien(MasoSinhVien, MaMonHoc);
             if (!checklophocphan) {
-                throw new Error (`Sinh viên chưa đăng kí môn ${MaMonHoc} nên chưa có lớp hoc phần.`)
+                throw new Error (`Sinh viên chưa đăng kí môn ${MaMonHoc} nên chưa có lớp hoc phần.`);
             }
             return {
                 MasoSinhVien: checklophocphan.MasoSinhVien,
@@ -120,11 +120,11 @@ export class DangKihocPhanServices{
             // Kiểm tra mã số sinh viên muốn đổi đăng kí có phải của sinh viên trong trường hay không
             const sinhvienRepositories = new SinhVienRepositories();
             const checkSinhVien = await sinhvienRepositories.FindOneSinhVien(MasoSinhVien);
-            if (!checkSinhVien) { throw new Error("Mã số sinh viên không tồn tại.") }
+            if (!checkSinhVien) { throw new Error("Mã số sinh viên không tồn tại."); }
 
             // Kiểm tra môn học mà sinh viên muốn thay đổi có không
-            const monhocReporitories = new MonHocRepositories()
-            const checkMonHoc = await monhocReporitories.FindOneMonHoc(MaMonHoc)
+            const monhocReporitories = new MonHocRepositories();
+            const checkMonHoc = await monhocReporitories.FindOneMonHoc(MaMonHoc);
             if (!checkMonHoc) {throw new Error("Mã môn không tồn tại."); }
             
             // Kiểm tra lớp học phàn muốn thay đổi có tồn tại hoặc có còn dư để chuyển vào không
@@ -132,21 +132,21 @@ export class DangKihocPhanServices{
             const checkLopHocPhan = await lophocphanRepositories.FindOneLopHocPhan(MaLopHocPhan);
             if (!checkLopHocPhan) { throw new Error("Lớp học phần không tồn tại."); }
             if (checkLopHocPhan.SoSinhVienHienTai + 1 > checkLopHocPhan.SoSinhVienToiDa ) {
-                throw new Error("Lớp học phần đã đủ số lượng không thể đăng kí")
+                throw new Error("Lớp học phần đã đủ số lượng không thể đăng kí");
             }
 
             // Kiểm tra lớp học có đúng môn hay không
             if (checkLopHocPhan.MaMonHoc !== MaMonHoc) {
-                throw new Error("Lớp học phần không thuộc môn học này.")
+                throw new Error("Lớp học phần không thuộc môn học này.");
             }
 
             // Kiểm tra xem sinh viên có đăng kí môn này trước đó chuwa (nếu có thì mới thay đổi được)
             const dangkihocphanRepositories = new DangKiHocPhanRepositories();
             const dangKiCu = await dangkihocphanRepositories.FindOne({MasoSinhVien, MaMonHoc});
-            if (!dangKiCu) {throw new Error ("Sinh viên chưa đăng kí môn học này. Không thể đổi.")}
+            if (!dangKiCu) {throw new Error ("Sinh viên chưa đăng kí môn học này. Không thể đổi."); }
             
             // Sau khi đã kiểm tra ok hết thì tiến hành cập nhập thông tin
-            await dangkihocphanRepositories.UpdateOneDangKiHocPhan(MasoSinhVien, MaMonHoc, MaLopHocPhan)
+            await dangkihocphanRepositories.UpdateOneDangKiHocPhan(MasoSinhVien, MaMonHoc, MaLopHocPhan);
 
             // Cập nhập sĩ số cho lớp cũ và lớp mới: lớp cũ -1, lớp mới +1
             const LopCu = await lophocphanRepositories.FindOneLopHocPhan(dangKiCu.MaLopHocPhan);
@@ -176,7 +176,7 @@ export class DangKihocPhanServices{
             const dangkihocphanRepositories = new DangKiHocPhanRepositories();
             const dangki = await dangkihocphanRepositories.FindOne({MasoSinhVien, MaMonHoc});
             if (!dangki){
-                throw new Error ("Không thể huỷ vì chưa đăng kí môn này.")
+                throw new Error ("Không thể huỷ vì chưa đăng kí môn này.");
             }
 
             // Xoá đăng kí học phần
@@ -189,7 +189,7 @@ export class DangKihocPhanServices{
                 await lopHocPhanRepositories.UpdateOneLopHocPhan(lophocphan.MaLopHocPhan, {SoSinhVienHienTai: Math.max(0, lophocphan.SoSinhVienHienTai - 1)});
             }
 
-            return "Đã huỷ đăng kí học phần thành công"
+            return "Đã huỷ đăng kí học phần thành công";
             
         } catch (error: any) {
             throw new Error (`Lỗi Service/DangKiHocPhan/HuyDangKiMotMonHoc: ${error}`);

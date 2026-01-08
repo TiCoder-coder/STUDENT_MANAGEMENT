@@ -76,7 +76,7 @@ export class LopHocPhanServices{
     async createOneLopHocPhan(userRole: string, lophocphan: CreateMaLopHocPhan){
         try {
 
-            RequireAdmin(userRole)          // Chỉ có admin mới được quyền tạo ra các lớp học phần
+            RequireAdmin(userRole);          // Chỉ có admin mới được quyền tạo ra các lớp học phần
 
             // Kiểm tra xem lớp học phần muốn tạo mới có tồn tại trước đó hay chưa
             const lophocphanRepositories = new LopHocPhanRepositories();
@@ -161,7 +161,7 @@ export class LopHocPhanServices{
     async findAllLopHocPhan(userRole: string){
         try {
 
-            RequireAdmin(userRole)     // Chỉ có admin mơi đưọc tìm kiếm thông tin của tất cả các lớp học phần
+            RequireAdmin(userRole);     // Chỉ có admin mơi đưọc tìm kiếm thông tin của tất cả các lớp học phần
             
             // Thực thi database để liệt kê
             const lophocphanRepositories = new LopHocPhanRepositories();
@@ -195,7 +195,7 @@ export class LopHocPhanServices{
     async UpdateOneMonHoc(UserRole: string, MaLopHocPhan: string, lophocphan: UpdateMaLopHocPhan){
         try{
 
-            RequireAdmin(UserRole)          // Chỉ có admin mới đưọc cập nhập thông tin của lớp học phần
+            RequireAdmin(UserRole);          // Chỉ có admin mới đưọc cập nhập thông tin của lớp học phần
             
             // Tạo ra 2 biến dùng để lưu trữ
             const keys: (keyof LopHocPhan)[] = [];  // Lưu trữ các keys trong hệ thống
@@ -207,18 +207,18 @@ export class LopHocPhanServices{
             if (!checkLopHocPhan){
                 throw new Error("Không tồn tại thông tin lớp học phần để update."); 
             } else {
-                keys.push("MaLopHocPhan")
-                values.push(lophocphan.MaLopHocPhan)
+                keys.push("MaLopHocPhan");
+                values.push(lophocphan.MaLopHocPhan);
             }
 
             // Kiểm tra xem môn học muốn thay đổi có tồn tại thông tin hay không
-            const monhocRepositories = new MonHocRepositories()
+            const monhocRepositories = new MonHocRepositories();
             const checkMonHoc = await monhocRepositories.FindOneMonHoc(lophocphan.MaMonHoc);
             if (!checkMonHoc) {
                 throw new Error("Không tồn tại mã lớp."); 
             } else {
-                keys.push("MaMonHoc")
-                values.push(lophocphan.MaMonHoc)
+                keys.push("MaMonHoc");
+                values.push(lophocphan.MaMonHoc);
             }
             
             // Kiểm tra định dạng ngày tháng năm
@@ -229,12 +229,12 @@ export class LopHocPhanServices{
 
                 if (lophocphan.NgayBatDau){
                     keys.push("NgayBatDau");
-                    values.push(lophocphan.NgayBatDau)
+                    values.push(lophocphan.NgayBatDau);
                 }
 
                 if (lophocphan.NgayKetThuc){
-                    keys.push("NgayKetThuc")
-                    values.push(lophocphan.NgayKetThuc)
+                    keys.push("NgayKetThuc");
+                    values.push(lophocphan.NgayKetThuc);
                 }
             }
 
@@ -243,14 +243,14 @@ export class LopHocPhanServices{
                 if (lophocphan.SoSinhVienToiThieu < 0) {
                     throw new Error("SoSinhVienToiThieu không được bé hơn 0.");
                 } else {
-                    keys.push("SoSinhVienToiThieu")
-                    values.push(lophocphan.SoSinhVienToiThieu)
+                    keys.push("SoSinhVienToiThieu");
+                    values.push(lophocphan.SoSinhVienToiThieu);
                 }
                 if (lophocphan.SoSinhVienToiDa < 0 || lophocphan.SoSinhVienToiDa < lophocphan.SoSinhVienToiThieu) {
                     throw new Error("SoSinhVienToiDa phải lớn hơn 0 và lớn hơn hoặc bằng số sinh viên tối thiểu.");
                 } else {
-                    keys.push("SoSinhVienToiDa")
-                    values.push(lophocphan.SoSinhVienToiDa)
+                    keys.push("SoSinhVienToiDa");
+                    values.push(lophocphan.SoSinhVienToiDa);
                 }
             }
 
@@ -258,8 +258,8 @@ export class LopHocPhanServices{
             if (lophocphan.TrangThaiLopHoc !== TrangThaiLopHoc.DangHoatDong && lophocphan.TrangThaiLopHoc !== TrangThaiLopHoc.NgungHoatDong) {
                 throw new Error("TrangThaiLopHoc phải là DangHoatDong hoặc NgungHoatDong.)");
             } else {
-                keys.push("TrangThaiLopHoc")
-                values.push(lophocphan.TrangThaiLopHoc)
+                keys.push("TrangThaiLopHoc");
+                values.push(lophocphan.TrangThaiLopHoc);
             }
 
             // Gắn các keys theo values tương ứng

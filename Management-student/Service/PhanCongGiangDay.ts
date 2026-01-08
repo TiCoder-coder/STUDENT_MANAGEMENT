@@ -12,13 +12,13 @@ export class PhanCongGiangDayServices{
     async createOnePhanCongGiangDay(userRole: string, phancong: CreatePhanCongGiangDay ){
         try {
 
-            RequireAdmin(userRole)
+            RequireAdmin(userRole);
             
             // Kiểm tra có tồn tại giảng viên không để cập nhập
             const giangvienRepositories = new GiangVienRepositories();
             const checkGiangVien = await giangvienRepositories.findoneGiangVien(phancong.MaSoGiangVien);
             if (!checkGiangVien) {
-                throw new Error("Giảng viên không tồn tại")
+                throw new Error("Giảng viên không tồn tại");
             }
 
             const lophocphanRepositories = new LopHocPhanRepositories();
@@ -27,9 +27,9 @@ export class PhanCongGiangDayServices{
 
 
             const phanconggiangdayRepositories = new PhanCongGiangDayRepositories();
-            const checkPhanCongGiangDay = await phanconggiangdayRepositories.FindByMaLopHocPhan(phancong.MaLopHocPhan)
+            const checkPhanCongGiangDay = await phanconggiangdayRepositories.FindByMaLopHocPhan(phancong.MaLopHocPhan);
             if (checkPhanCongGiangDay) {
-                throw new Error (`Lớp ${phancong.MaLopHocPhan} đã được phân công cho giảng viên ${checkPhanCongGiangDay.MaSoGiangVien}.`)
+                throw new Error (`Lớp ${phancong.MaLopHocPhan} đã được phân công cho giảng viên ${checkPhanCongGiangDay.MaSoGiangVien}.`);
             }
 
             await phanconggiangdayRepositories.CreateOnePhanCongGiangDay(phancong);
@@ -47,12 +47,12 @@ export class PhanCongGiangDayServices{
     async findOnePhanCongGiangDay(userRole: string, MaLopHocPhan: string){
         try {
 
-            RequireGiangVienOrAdmin(userRole)
+            RequireGiangVienOrAdmin(userRole);
 
             const phanconggiangdayRepositories = new PhanCongGiangDayRepositories();
-            const checkPhanCongGiangDay = await phanconggiangdayRepositories.FindByMaLopHocPhan(MaLopHocPhan)
+            const checkPhanCongGiangDay = await phanconggiangdayRepositories.FindByMaLopHocPhan(MaLopHocPhan);
             if (!checkPhanCongGiangDay) {
-                throw new Error (`Lớp ${MaLopHocPhan} chưa có thông tin phân công giảng dạy.`)
+                throw new Error (`Lớp ${MaLopHocPhan} chưa có thông tin phân công giảng dạy.`);
             }
 
             return checkPhanCongGiangDay;
@@ -66,10 +66,10 @@ export class PhanCongGiangDayServices{
     async findAllPhanCongGiangDay(userRole: string){
         try {
 
-            RequireAdmin(userRole)
+            RequireAdmin(userRole);
 
             const phanconggiangdayRepositories = new PhanCongGiangDayRepositories();
-            const danhSachPhanCongs = await phanconggiangdayRepositories.FindAllPhanCongGiangDay()
+            const danhSachPhanCongs = await phanconggiangdayRepositories.FindAllPhanCongGiangDay();
             if (danhSachPhanCongs.length > 0) {
                 return danhSachPhanCongs.map((danhSachPhanCong) => ({
                     MaSoGiangVien: danhSachPhanCong.MaSoGiangVien,
@@ -87,9 +87,9 @@ export class PhanCongGiangDayServices{
         try {
 
 
-            RequireAdmin(userRole)
+            RequireAdmin(userRole);
             const phanconggiangdayRepositories = new PhanCongGiangDayRepositories();
-            const checkPhanCongGiangDay = await phanconggiangdayRepositories.FindByMaLopHocPhan(MaLopHocPhan)
+            const checkPhanCongGiangDay = await phanconggiangdayRepositories.FindByMaLopHocPhan(MaLopHocPhan);
             if (!checkPhanCongGiangDay) throw new Error(`Không tìm thấy phân công của lớp ${MaLopHocPhan}.`);
 
             const keys: (keyof PhanCongGiangDay)[] = [];
@@ -102,12 +102,12 @@ export class PhanCongGiangDayServices{
 
             if (phancong.MaSoGiangVien) {
                 keys.push("MaSoGiangVien");
-                values.push(phancong.MaSoGiangVien)
+                values.push(phancong.MaSoGiangVien);
             }
 
             const ThongTinUpdate: Record<string, any> = {};
             for (let i = 0; i < keys.length; i++){
-                ThongTinUpdate[keys[i]] = values[i]
+                ThongTinUpdate[keys[i]] = values[i];
             }
 
             // Kiểm tra xem có thông tin để cập nhập hay không
@@ -134,14 +134,14 @@ export class PhanCongGiangDayServices{
             RequireAdmin(userRole)
 
             const phanconggiangdayRepositories = new PhanCongGiangDayRepositories();
-            const checkPhanCongGiangDay = await phanconggiangdayRepositories.FindOnePhanCongGiangDay(MaSoGiangVien, MaLopHocPhan)
+            const checkPhanCongGiangDay = await phanconggiangdayRepositories.FindOnePhanCongGiangDay(MaSoGiangVien, MaLopHocPhan);
             if (!checkPhanCongGiangDay) {
-                console.log("Không có thông tin để xoá.")
+                console.log("Không có thông tin để xoá.");
                 return false;
             }
             
-            await phanconggiangdayRepositories.DeleteOnePhanCongGiangDay(MaSoGiangVien, MaLopHocPhan)
-            return "Đã xoá thông tin thành công."
+            await phanconggiangdayRepositories.DeleteOnePhanCongGiangDay(MaSoGiangVien, MaLopHocPhan);
+            return "Đã xoá thông tin thành công.";
             
         } catch (error: any) {
             throw new Error (`Lỗi Service/PhanCongGiangDay/DeleteOnePhanCongGiangDay: ${error}`);

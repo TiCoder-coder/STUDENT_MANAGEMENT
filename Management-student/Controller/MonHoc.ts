@@ -18,12 +18,12 @@ export class MonHocController extends Controller {
     @Security("bearerAuth")
     @SuccessResponse(201, "Tạo thành công.")
     public async createMonHoc(@Body() body: CreateMonHoc, @Request req: any): Promise<any> {
-        const monhoc = plainToInstance(CreateMonHoc, body)
+        const monhoc = plainToInstance(CreateMonHoc, body);
         const userRole = req.user?.role;
 
-        const checkmonhoc = await validate(monhoc)
+        const checkmonhoc = await validate(monhoc);
 
-        if (checkmonhoc.length > 0) { throw new Error (`Lỗi thông tin khởi tạo môn học: ${JSON.stringify(checkmonhoc)}`)}
+        if (checkmonhoc.length > 0) { throw new Error (`Lỗi thông tin khởi tạo môn học: ${JSON.stringify(checkmonhoc)}`); }
 
         try {
             const create = await this.services.createMonHoc(userRole, monhoc);
@@ -32,7 +32,7 @@ export class MonHocController extends Controller {
                 data: create,
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/Monhoc/createMonHoc: ${error}`)
+            throw new Error (`Lỗi Controller/Monhoc/createMonHoc: ${error}`);
         }
     }
 
@@ -48,7 +48,7 @@ export class MonHocController extends Controller {
                 data: getmonhoc
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/Monhoc/getOneMonHoc: ${error}`)
+            throw new Error (`Lỗi Controller/Monhoc/getOneMonHoc: ${error}`);
         }        
     }
 
@@ -59,13 +59,13 @@ export class MonHocController extends Controller {
     public async getAllMonHoc(@Request() req: any): Promise<any> {
         try {
             const userRole = req.user?.role;
-            const getmonhocs = await this.services.ListAllMonHoc(userRole)
+            const getmonhocs = await this.services.ListAllMonHoc(userRole);
             return {
                 message: "Đã liệt kê thông tin tất cả các môn học thành công",
                 data: getmonhocs
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/Monhoc/getAllMonHoc: ${error}`)
+            throw new Error (`Lỗi Controller/Monhoc/getAllMonHoc: ${error}`);
         }
     }
 
@@ -74,19 +74,19 @@ export class MonHocController extends Controller {
     @Security("bearerAuth")
     @SuccessResponse(200, "Cập nhập thành công")
     public async CapNhapMonHoc(@Path() MaMonHoc: string, @Body() body: UpdateMonHoc, @Request req: any): Promise<any> {
-        const monhoc = plainToInstance(UpdateMonHoc, body)
+        const monhoc = plainToInstance(UpdateMonHoc, body);
 
-        const checkmonhoc = await validate(monhoc)
-        if (checkmonhoc.length > 0) { throw new Error (`Sai thông tin cập nhập: ${JSON.stringify(checkmonhoc)}`)}
+        const checkmonhoc = await validate(monhoc);
+        if (checkmonhoc.length > 0) { throw new Error (`Sai thông tin cập nhập: ${JSON.stringify(checkmonhoc)}`); }
         try {
             const userRole = req.user?.role;
-            const update = await this.services.UpdateOneMonHoc(userRole, MaMonHoc, monhoc)
+            const update = await this.services.UpdateOneMonHoc(userRole, MaMonHoc, monhoc);
             return {
                 message: "Đã cập nhập thông tin sinh viên thành công",
                 data: update
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/Monhoc/CapNhapMonHoc: ${error}`)
+            throw new Error (`Lỗi Controller/Monhoc/CapNhapMonHoc: ${error}`);
         }
     }
 
@@ -97,12 +97,12 @@ export class MonHocController extends Controller {
     public async DeleteMonHoc(@Path() MaMonHoc: string, @Request req: any): Promise<any> {
         try {
             const userRole = req.user?.role;
-            await this.services.DeleteOneMonHoc(userRole, MaMonHoc)
+            await this.services.DeleteOneMonHoc(userRole, MaMonHoc);
             return {
                 message: "Đã xoá thông tin sinh viên thành công",
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/Monhoc/DeleteMonHoc: ${error}`)
+            throw new Error (`Lỗi Controller/Monhoc/DeleteMonHoc: ${error}`);
         }
 
     }

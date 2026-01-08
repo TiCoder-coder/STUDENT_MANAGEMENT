@@ -21,18 +21,18 @@ export class GiangVienController extends Controller{
         const userRole = req.user?.role;
         const checkGiangVien = await validate(giangvien);
         if (checkGiangVien.length > 0) {
-            throw new Error (`Invalid data: ${JSON.stringify(checkGiangVien)}`)
+            throw new Error (`Invalid data: ${JSON.stringify(checkGiangVien)}`);
         }
 
         try {
-            const createGiangVien = await this.services.createGiangVien(userRole, giangvien)
+            const createGiangVien = await this.services.createGiangVien(userRole, giangvien);
 
             return {
                 message: "Insert giảng viên xuống database thành công.",
                 data: createGiangVien,
             }
         } catch (error: any) {
-            throw new Error(`Lỗi Controller/GiangVien/PostGiangVien: ${error.message}`)
+            throw new Error(`Lỗi Controller/GiangVien/PostGiangVien: ${error.message}`);
         }
     }
 
@@ -43,14 +43,14 @@ export class GiangVienController extends Controller{
     public async GetOneGiangVien(@Path() MaSoGiangVien: string, @Request req: any): Promise<any> {
         try {
             const userRole = (req as any).user?.role;
-            const getgiangvien = await this.services.TimKiemMotGiangVienTheoMaSo(userRole, MaSoGiangVien)
+            const getgiangvien = await this.services.TimKiemMotGiangVienTheoMaSo(userRole, MaSoGiangVien);
 
             return {
                 message: "Đã tìm kiếm giảng viên thành công. Thông tin giảng viên: ",
                 data: getgiangvien
             }
         } catch (error: any) {
-            throw new Error(`Lỗi Controller/GiangVien/GetOneSinhVien: ${error.message}`)
+            throw new Error(`Lỗi Controller/GiangVien/GetOneSinhVien: ${error.message}`);
         }
 
     }
@@ -62,14 +62,14 @@ export class GiangVienController extends Controller{
     public async GetAllSinhVien(@Request() req: any): Promise<any>{
         try {
             const userRole =req.user?.role;
-            const giangviens = await this.services.LietKeThongTinTatCaCacGiangVien(userRole)
+            const giangviens = await this.services.LietKeThongTinTatCaCacGiangVien(userRole);
 
             return {
                 message: "Đã lấy thông tin tất cả giảng viên thành công.",
                 data: giangviens
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/GiangVien/GetAllSinhVien: ${error}`)
+            throw new Error (`Lỗi Controller/GiangVien/GetAllSinhVien: ${error}`);
         }
     }
 
@@ -78,22 +78,22 @@ export class GiangVienController extends Controller{
     @Security("bearerAuth")
     @SuccessResponse(200, "Cập nhập thông tin giảng viên thành công.")
     public async UpdateOneGiangVien(@Path() MaSoGiangVien: string, @Body() body: UpdateGiangVien, @Request req: any): Promise<any> {
-        const update = plainToInstance(UpdateGiangVien, body)
+        const update = plainToInstance(UpdateGiangVien, body);
         const userRole = req.user?.role;
-        const checkUpdate = await validate(update)
+        const checkUpdate = await validate(update);
 
         if (checkUpdate.length > 0) {
-            throw new Error(`Lỗi thông tin cập nhập ${JSON.stringify(checkUpdate)}`)
+            throw new Error(`Lỗi thông tin cập nhập ${JSON.stringify(checkUpdate)}`);
         }
         try {
-            const updategiangvien = await this.services.CapNhapThongTinMotGiangVien(userRole, MaSoGiangVien, update)
+            const updategiangvien = await this.services.CapNhapThongTinMotGiangVien(userRole, MaSoGiangVien, update);
 
             return {
                 message: "Đã cập nhập thông tin giảng viên thành công",
                 data: updategiangvien,
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/GiangVien/UpdateOneSinhVien: ${error}`)
+            throw new Error (`Lỗi Controller/GiangVien/UpdateOneSinhVien: ${error}`);
         }
     }
 
@@ -104,12 +104,12 @@ export class GiangVienController extends Controller{
     public async DeleteOneSinhVien(@Path() MaSoGiangVien: string, @Request req: any): Promise<any> {
         try {
             const userRole = req.user?.role;
-            await this.services.XoaThongTinMotGiangVien(userRole, MaSoGiangVien)
+            await this.services.XoaThongTinMotGiangVien(userRole, MaSoGiangVien);
             return {
                 message: "Đã xoá giảng viên thành công.",
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/GiangVien/DeleteOneSinhVien: ${error}`)
+            throw new Error (`Lỗi Controller/GiangVien/DeleteOneSinhVien: ${error}`);
         }
     }
 }

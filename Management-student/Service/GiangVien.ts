@@ -31,7 +31,7 @@ export class GiangVienServices{
                 throw new Error("Trạng thái giảng viên phải là: DangDay, TamNgungDay, KhongConDay");
             }
 
-            if (giangvien.VaiTro !== VaiTroNguoiDung.GiangVien) throw new Error("Vai trò không phù hợp.");
+            if (giangvien.VaiTro !== VaiTroNguoiDung.GiangVien) {throw new Error("Vai trò không phù hợp.");}
 
 
             // Kiểm tra giới tình giảng sinh có đúng trong enum hay không
@@ -43,22 +43,25 @@ export class GiangVienServices{
             KiemTraNgaySinh(giangvien.NgaySinh.getDate(), giangvien.NgaySinh.getMonth() + 1, giangvien.NgaySinh.getFullYear());
 
             // Kiểm tra username có bị trùng hay không
-            if (await giangvienRepositories.FindOneGiangVienByUsername(giangvien.UserName)){ throw new Error("Lỗi username. Username đã bị trùng.")}
+            if (await giangvienRepositories.FindOneGiangVienByUsername(giangvien.UserName)){ throw new Error("Lỗi username. Username đã bị trùng."); }
             
             // Kiểm tra email có bị trùng hay không
-            if (await giangvienRepositories.FindOneGiangVienByEmail(giangvien.Email)) {throw new Error("Lỗi email. Email đã bi trùng.")}
+            if (await giangvienRepositories.FindOneGiangVienByEmail(giangvien.Email)) {throw new Error("Lỗi email. Email đã bi trùng.");  }
             
             // Kiểm tra email có đúng định dạng hay không
             if (!KiemTraDinhDangEmail(giangvien.Email)){ throw new Error("Lỗi email. Email bị sai định dạng.");}
 
             // Kiểm tra mật khẩu có mạnh không
-            KiemTraMatKhauManh(giangvien.Password)
+            KiemTraMatKhauManh(giangvien.Password);
 
             // Chuẩn hoá họ và tên trước khi lưu xuống database
+            giangvien.MaSoGiangVien = giangvien.MaSoGiangVien.trim();
             giangvien.TenGiangVien = ChuanHoaHoTen(giangvien.TenGiangVien);
             giangvien.NoiSinh = ChuanHoaHoTen(giangvien.NoiSinh);
             giangvien.ChuyenNghanh = ChuanHoaHoTen(giangvien.ChuyenNghanh);
-            giangvien.Password = await hashpassword(giangvien.Password)
+            giangvien.Email = giangvien.Email.trim();
+            giangvien.UserName = giangvien.UserName.trim();
+            giangvien.Password = await hashpassword(giangvien.Password);
 
             const newgiangvien = {
                 ...giangvien,
@@ -103,9 +106,9 @@ export class GiangVienServices{
             
             // Trả về kết quả tìm kiếm
             if (!checkGiangVien) {
-                throw new Error("Giảng viên không tồn tại")
+                throw new Error("Giảng viên không tồn tại");
             }
-            console.log("Đã tìm thấy thông tin giảng viên: ")
+            console.log("Đã tìm thấy thông tin giảng viên: ");
             return {
                 MaSoGiangVien: checkGiangVien.MaSoGiangVien,
                 TenGiangVien: checkGiangVien.TenGiangVien,
@@ -129,7 +132,7 @@ export class GiangVienServices{
     async LietKeThongTinTatCaCacGiangVien(userRole: string){
         try{
 
-            RequireAdmin(userRole)
+            RequireAdmin(userRole);
             const giangvienRepositories = new GiangVienRepositories();
             const checkGiangViens = await giangvienRepositories.findAllGiangVien();
 
@@ -149,7 +152,7 @@ export class GiangVienServices{
                     VaiTro: checkGiangVien.VaiTro
                 }));
             }
-            console.log("Không có bất kì thông tin của giảng viên nào trong database.")
+            console.log("Không có bất kì thông tin của giảng viên nào trong database.");
         } catch (error: any) {
             throw new Error (`Lỗi Service/GiangVien/LietKeThongTinTatCaCacGiangVien: ${error}`);
         }
@@ -163,25 +166,25 @@ export class GiangVienServices{
             const checkGiangVien = await giangvienRepositories.findoneGiangVien(MaSoGiangVien);
 
             // Tạo ra 2 biến dùng để lưu trữ
-            const keys: (keyof GiangVien)[] = []                          // Lưu trữ key
+            const keys: (keyof GiangVien)[] = [];                          // Lưu trữ key
             const values: any[] = [];                                    // Lưu trữ value
 
             // Kiểm tra có tồn tại giảng viên không để cập nhập
             if (!checkGiangVien) {
-                throw new Error("Giảng viên không tồn tại")
+                throw new Error("Giảng viên không tồn tại");
             }
 
             // Kiểm tra mã số giảng viên
             if(giangvien.MaSoGiangVien){
-                keys.push("MaSoGiangVien")
-                values.push(giangvien.MaSoGiangVien)
+                keys.push("MaSoGiangVien");
+                values.push(giangvien.MaSoGiangVien.trim());
             }
 
             // Kiểm tra tên giảng viên
             if(giangvien.TenGiangVien){
-                const hoten = ChuanHoaHoTen(giangvien.TenGiangVien)
-                keys.push("TenGiangVien")
-                values.push(hoten)
+                const hoten = ChuanHoaHoTen(giangvien.TenGiangVien);
+                keys.push("TenGiangVien");
+                values.push(hoten);
             }
 
             // Cập nhập thông tin ngày tháng năm sinh (nếu có)
@@ -189,8 +192,8 @@ export class GiangVienServices{
                 if (!KiemTraNgaySinh(giangvien.NgaySinh.getDate(), giangvien.NgaySinh.getMonth() + 1, giangvien.NgaySinh.getFullYear())){
                     throw new Error ("Ngày sinh bị lỗi.");
                 } else {
-                    keys.push("NgaySinh")
-                    values.push(giangvien.NgaySinh)
+                    keys.push("NgaySinh");
+                    values.push(giangvien.NgaySinh);
                 }
             }
 
@@ -199,23 +202,23 @@ export class GiangVienServices{
                 if(giangvien.GioiTinhGiangVien !== GioiTinh.Nam && giangvien.GioiTinhGiangVien !== GioiTinh.Nu && giangvien.GioiTinhGiangVien !== GioiTinh.Khac){
                     throw new Error("Giới tính của giảng viên phải là: Nam, Nu hoặc Khac");
                 } else {
-                    keys.push("GioiTinhGiangVien")
-                    values.push(giangvien.GioiTinhGiangVien)
+                    keys.push("GioiTinhGiangVien");
+                    values.push(giangvien.GioiTinhGiangVien);
                 }
             }
 
             // Kiểm tra nơi sinh
             if(giangvien.NoiSinh){
                 giangvien.NoiSinh = ChuanHoaHoTen(giangvien.NoiSinh);
-                keys.push("NoiSinh")
-                values.push(giangvien.NoiSinh)
+                keys.push("NoiSinh");
+                values.push(giangvien.NoiSinh);
             }
 
             // Kiểm tra chuyên nghành
             if(giangvien.ChuyenNghanh){
                 giangvien.ChuyenNghanh = ChuanHoaHoTen(giangvien.ChuyenNghanh);
-                keys.push("ChuyenNghanh")
-                values.push(giangvien.ChuyenNghanh)
+                keys.push("ChuyenNghanh");
+                values.push(giangvien.ChuyenNghanh);
             }
 
             // Cập nhập thông tin trạng thái (nếu có)
@@ -223,16 +226,16 @@ export class GiangVienServices{
                 if (giangvien.TrangThai !== TrangThaiHoatDongGiangVien.DangDay && giangvien.TrangThai !== TrangThaiHoatDongGiangVien.TamNgungDay && giangvien.TrangThai !== TrangThaiHoatDongGiangVien.KhongConDay){
                     throw new Error("Trạng thái học tập của giảng viên phải là: DangHoc, TamNgungHoc, KhongConHoc");
                 } else {
-                    keys.push("TrangThai")
-                    values.push(giangvien.TrangThai)
+                    keys.push("TrangThai");
+                    values.push(giangvien.TrangThai);
                 }
             }
 
             // Kiểm tra vai trò
             if (giangvien.VaiTro){
                 if (giangvien.VaiTro !== VaiTroNguoiDung.GiangVien) throw new Error("Vai trò không phù hợp.");
-                keys.push("VaiTro")
-                values.push(giangvien.VaiTro)
+                keys.push("VaiTro");
+                values.push(giangvien.VaiTro);
             }
 
             // Cập nhập email (nếu có)
@@ -244,8 +247,8 @@ export class GiangVienServices{
                 if (!KiemTraDinhDangEmail(giangvien.Email)){ 
                     throw new Error("Lỗi email. Email bị sai định dạng.");
                 } else{
-                    keys.push("Email")
-                    values.push(giangvien.Email)
+                    keys.push("Email");
+                    values.push(giangvien.Email.trim());
                 }
             }
 
@@ -255,28 +258,28 @@ export class GiangVienServices{
                 if (existed && existed.MaSoGiangVien !== MaSoGiangVien){ 
                     throw new Error("Lỗi username. Username đã bị trùng.");
                 } else {
-                    keys.push("UserName")
-                    values.push(giangvien.UserName)
+                    keys.push("UserName");
+                    values.push(giangvien.UserName.trim());
                 }
             }
 
             // Cập nhập mật khẩu (nếu có)
             if (giangvien.Password) {
                 const hash = await hashpassword(giangvien.Password);
-                keys.push("Password")
-                values.push(hash)
+                keys.push("Password");
+                values.push(hash);
             }
 
             // Kiểm tra số lần đăng nhập thất bại
             if (giangvien.SoLamDangNhapThatBai !== undefined){
-                keys.push("SoLamDangNhapThatBai")
-                values.push(giangvien.SoLamDangNhapThatBai)
+                keys.push("SoLamDangNhapThatBai");
+                values.push(giangvien.SoLamDangNhapThatBai);
             }
 
             // Kiểm tra không cho đăng nhập tới khi nào 
             if (giangvien.KhongChoDangNhapToi !== undefined){
-                keys.push("KhongChoDangNhapToi")
-                values.push(giangvien.KhongChoDangNhapToi)
+                keys.push("KhongChoDangNhapToi");
+                values.push(giangvien.KhongChoDangNhapToi);
             }
 
             // Update thông tin
@@ -321,12 +324,12 @@ export class GiangVienServices{
             // Kiểm trâ xem giảng viên có tồn tại hay không để xoá thông tin
             const checkGiangVien = await giangvienRepositories.findoneGiangVien(MaSoGiangVien);
             if (!checkGiangVien) {
-                throw new Error("Giảng viên không tồn tại")
+                throw new Error("Giảng viên không tồn tại");
             }
             
             // Nếu có thì thực thi xoá thông tin
             await giangvienRepositories.deleteOneGiangVien(MaSoGiangVien);
-            return "Đã xoá giảng viên thành công."
+            return "Đã xoá giảng viên thành công.";
 
         } catch (error: any) {
             throw new Error (`Lỗi Service/GiangVien/XoaThongTinMotGiangVien: ${error}`);
@@ -376,7 +379,7 @@ export class GiangVienServices{
             // Kiểm tra xem tài khoản đó có đang bị khoá hay không
             const thoiGianHienTai = new Date()
             if (checkGiangVien.KhongChoDangNhapToi && thoiGianHienTai < new Date(checkGiangVien.KhongChoDangNhapToi)){
-                throw new Error(`Tài khoản sinh viên bị khoá đến: ${checkGiangVien.KhongChoDangNhapToi}`)
+                throw new Error(`Tài khoản sinh viên bị khoá đến: ${checkGiangVien.KhongChoDangNhapToi}`);
             }
 
             // So sánh password nhập vào và password ở database xem có khớp không
@@ -384,7 +387,7 @@ export class GiangVienServices{
             if (!compare) {
                 console.error("Đăng nhập thất bại.");
                 await this.KhoaTaiKhoan(UserName);
-                throw new Error("Sai mật khẩu. Đăng nhập lại (tối đa được 3 lần).")
+                throw new Error("Sai mật khẩu. Đăng nhập lại (tối đa được 3 lần).");
             }
 
             // Nếu đăng nhập thành công thì cập nhập lại số lần thất bại là 0

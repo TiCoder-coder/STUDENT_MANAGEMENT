@@ -171,12 +171,13 @@ export class SinhVienServices{
             KiemTraMatKhauManh(sinhvien.Password)
 
             // Chuẩn hoá họ và tên trước khi lưu xuống database
+            sinhvien.MasoSinhVien = sinhvien.MasoSinhVien.trim();
             sinhvien.HoVaTenSinhVien = ChuanHoaHoTen(sinhvien.HoVaTenSinhVien);
             sinhvien.NoiSinh = ChuanHoaHoTen(sinhvien.NoiSinh);
             sinhvien.ChuyenNghanh = ChuanHoaHoTen(sinhvien.ChuyenNghanh);
-            sinhvien.Password = await hashpassword(sinhvien.Password)
-            sinhvien.Email = sinhvien.Email.trim()
-            sinhvien.UserName = sinhvien.UserName.trim()
+            sinhvien.Password = await hashpassword(sinhvien.Password);
+            sinhvien.Email = sinhvien.Email.trim();
+            sinhvien.UserName = sinhvien.UserName.trim();
 
             const newsinhvien: SinhVien = {
                 ...sinhvien,
@@ -280,23 +281,23 @@ export class SinhVienServices{
             const checkSinhVien = await sinhvienRepositories.FindOneSinhVien(MaSoSinhVien);
 
             // Tạo ra 2 biến dùng để lưu trữ
-            const keys: (keyof SinhVien)[] = []                          // Lưu trữ key
+            const keys: (keyof SinhVien)[] = [];                          // Lưu trữ key
             const values: any[] = [];                                    // Lưu trữ value
 
             // Kiểm tra có tồn tại sinh viên không để cập nhập
             if (!checkSinhVien) {
-                throw new Error("Sinh viên không tồn tại")
+                throw new Error("Sinh viên không tồn tại");
             }
 
             if(sinhvien.MasoSinhVien){
-                keys.push("MasoSinhVien")
-                values.push(sinhvien.MasoSinhVien)
+                keys.push("MasoSinhVien");
+                values.push(sinhvien.MasoSinhVien.trim());
             }
 
             if(sinhvien.HoVaTenSinhVien){
-                sinhvien.HoVaTenSinhVien = ChuanHoaHoTen(sinhvien.HoVaTenSinhVien)
-                keys.push("HoVaTenSinhVien")
-                values.push(sinhvien.HoVaTenSinhVien)
+                sinhvien.HoVaTenSinhVien = ChuanHoaHoTen(sinhvien.HoVaTenSinhVien);
+                keys.push("HoVaTenSinhVien");
+                values.push(sinhvien.HoVaTenSinhVien);
             }
             
             // Cập nhập thông tin ngày tháng năm sinh (nếu có)
@@ -304,8 +305,8 @@ export class SinhVienServices{
                 if (!KiemTraNgaySinh(sinhvien.NgaySinh.getDate(), sinhvien.NgaySinh.getMonth() + 1, sinhvien.NgaySinh.getFullYear())){
                     throw new Error ("Ngày sinh bị lỗi.");
                 } else {
-                    keys.push("NgaySinh")
-                    values.push(sinhvien.NgaySinh)
+                    keys.push("NgaySinh");
+                    values.push(sinhvien.NgaySinh);
                 }
             }
 
@@ -314,21 +315,21 @@ export class SinhVienServices{
                 if(sinhvien.GioiTinhHocSinh !== GioiTinh.Nam && sinhvien.GioiTinhHocSinh !== GioiTinh.Nu && sinhvien.GioiTinhHocSinh !== GioiTinh.Khac){
                     throw new Error("Giới tính của sinh viên phải là: Nam, Nu hoặc Khac");
                 } else {
-                    keys.push("GioiTinhHocSinh")
-                    values.push(sinhvien.GioiTinhHocSinh)
+                    keys.push("GioiTinhHocSinh");
+                    values.push(sinhvien.GioiTinhHocSinh);
                 }
             }
 
             if(sinhvien.NoiSinh){
-                sinhvien.NoiSinh = ChuanHoaHoTen(sinhvien.NoiSinh)
-                keys.push("NoiSinh")
-                values.push(sinhvien.NoiSinh)
+                sinhvien.NoiSinh = ChuanHoaHoTen(sinhvien.NoiSinh);
+                keys.push("NoiSinh");
+                values.push(sinhvien.NoiSinh);
             }
 
             if(sinhvien.ChuyenNghanh){
-                sinhvien.ChuyenNghanh = ChuanHoaHoTen(sinhvien.ChuyenNghanh)
-                keys.push("ChuyenNghanh")
-                values.push(sinhvien.ChuyenNghanh)
+                sinhvien.ChuyenNghanh = ChuanHoaHoTen(sinhvien.ChuyenNghanh);
+                keys.push("ChuyenNghanh");
+                values.push(sinhvien.ChuyenNghanh);
             }
 
             // Cập nhập thông tin khoá học (nếu có)
@@ -338,8 +339,8 @@ export class SinhVienServices{
                 if (sinhvien.KhoaHoc > NgayHienTai.getFullYear()){ 
                     throw new Error("Khoa hoc phải nhỏ hơn hoặc bằng năm hiện tại. "); 
                 } else {
-                    keys.push("KhoaHoc")
-                    values.push(sinhvien.KhoaHoc)
+                    keys.push("KhoaHoc");
+                    values.push(sinhvien.KhoaHoc);
                 }
             }
             
@@ -349,8 +350,8 @@ export class SinhVienServices{
                 if (sinhvien.TrangThai !== TrangThaiHoatDong.DangHoc && sinhvien.TrangThai !== TrangThaiHoatDong.TamNgunghoc && sinhvien.TrangThai !== TrangThaiHoatDong.KhongConHoc){
                     throw new Error("Trạng thái học tập của sinh viên phải là: DangHoc, TamNgungHoc, KhongConHoc");
                 } else {
-                    keys.push("TrangThai")
-                    values.push(sinhvien.TrangThai)
+                    keys.push("TrangThai");
+                    values.push(sinhvien.TrangThai);
                 }
             }
 
@@ -358,19 +359,19 @@ export class SinhVienServices{
                 if (sinhvien.VaiTro !== VaiTroNguoiDung.SinhVien){
                     throw new Error("Chức vụ không phù hợp.");
                 }
-                keys.push("VaiTro")
-                values.push(sinhvien.VaiTro)
+                keys.push("VaiTro");
+                values.push(sinhvien.VaiTro);
             }
 
             // Cập nhập email (nếu có)
             if (sinhvien.Email){
                 // Kiểm tra email có đúng định dạng hay không
                 if (await sinhvienRepositories.FindOneSinhVienByEmail(sinhvien.Email) && sinhvien.MasoSinhVien !== MaSoSinhVien) {
-                    throw new Error("Lỗi email. Email đã bi trùng.")
+                    throw new Error("Lỗi email. Email đã bi trùng.");
                 }
                 else{
-                    keys.push("Email")
-                    values.push(sinhvien.Email.trim())
+                    keys.push("Email");
+                    values.push(sinhvien.Email.trim());
                 }
             }
 
@@ -381,26 +382,26 @@ export class SinhVienServices{
                 if (existed && existed.MasoSinhVien !==MaSoSinhVien){ 
                     throw new Error("Lỗi username. Username đã bị trùng.");
                 } else {
-                    keys.push("UserName")
-                    values.push(sinhvien.UserName.trim())
+                    keys.push("UserName");
+                    values.push(sinhvien.UserName.trim());
                 }
             }
 
             // Cập nhập mật khẩu (nếu có)
             if (sinhvien.Password) {
                 const hash = await hashpassword(sinhvien.Password);
-                keys.push("Password")
-                values.push(hash)
+                keys.push("Password");
+                values.push(hash);
             }
 
             if (sinhvien.SoLamDangNhapThatBai !== undefined){
-                keys.push("SoLamDangNhapThatBai")
-                values.push(sinhvien.SoLamDangNhapThatBai)
+                keys.push("SoLamDangNhapThatBai");
+                values.push(sinhvien.SoLamDangNhapThatBai);
             }
 
             if (sinhvien.KhongChoDangNhapToi !== undefined){
-                keys.push("KhongChoDangNhapToi")
-                values.push(sinhvien.KhongChoDangNhapToi)
+                keys.push("KhongChoDangNhapToi");
+                values.push(sinhvien.KhongChoDangNhapToi);
             }
 
             const ThongtinUpdate: Record<string, any> = {};
@@ -409,7 +410,7 @@ export class SinhVienServices{
             }
 
             if (Object.keys(ThongtinUpdate).length === 0) {
-                return "Không có thông tin nào mới để cập nhập."
+                return "Không có thông tin nào mới để cập nhập.";
             }
 
             await sinhvienRepositories.UpdateOneSinhVien(MaSoSinhVien, ThongtinUpdate);
@@ -443,7 +444,7 @@ export class SinhVienServices{
             const sinhvienRepositories = new SinhVienRepositories();
             const checkSinhVien = await sinhvienRepositories.FindOneSinhVien(MaSoSinhVien);
             if (!checkSinhVien) {
-                throw new Error("Sinh viên không tồn tại")
+                throw new Error("Sinh viên không tồn tại");
             }
             
             await sinhvienRepositories.DeleteOneSinhVien(MaSoSinhVien);

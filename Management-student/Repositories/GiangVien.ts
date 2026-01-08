@@ -47,7 +47,7 @@ export class GiangVienRepositories extends BaseConnection<GiangVien>{
 
     // Hàm dùng để cập nhập thông tin của giảng viên bằng username của giảng viên
     updateOneGiangVienByUserName(UserName: string, update: Partial<GiangVien>){
-        return this.UpdateOne({UserName}, {$set: update})
+        return this.UpdateOne({UserName}, {$set: update});
     }
     // Hàm dùng để xoá thông tin của một giảng viên
     deleteOneGiangVien(MaSoGiangVien: string) {return this.DeleteOne({MaSoGiangVien}); }

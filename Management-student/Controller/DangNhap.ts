@@ -13,7 +13,7 @@ import { GiangVienServices } from "../Service/GiangVien";
 export class DangNhap extends Controller {
 
     private svservices = new SinhVienServices();
-    private gvsersvice = new GiangVienServices()
+    private gvsersvice = new GiangVienServices();
 
     // Hàm dùng để call tới chức năng login của service sau đó kiểm tra và thực thi nó
     @Post("Login/{UserName}/{Password}")
@@ -21,20 +21,20 @@ export class DangNhap extends Controller {
     public async Login(@Body() body: DangNhapDto): Promise<any> {
         try {
             const dangnhap = plainToInstance(DangNhapDto, body);
-            const checkdangnhap = await validate(dangnhap)
+            const checkdangnhap = await validate(dangnhap);
 
             if (checkdangnhap.length > 0) {
-                throw new Error(`Lỗi thông tin đăng nhập: ${JSON.stringify(checkdangnhap)}`)
+                throw new Error(`Lỗi thông tin đăng nhập: ${JSON.stringify(checkdangnhap)}`);
             }
             try {
-                const user = await this.svservices.DangNhap(body.UserName, body.Password)
+                const user = await this.svservices.DangNhap(body.UserName, body.Password);
 
                 return {
                     message: "Đăng nhập thành công: ", ...user
                 }
             } catch {}
 
-            const user = await this.gvsersvice.DangNhap(body.UserName, body.Password)
+            const user = await this.gvsersvice.DangNhap(body.UserName, body.Password);
 
             return {
                 message: "Đăng nhập thành công: ", ...user
@@ -60,7 +60,7 @@ export class DangNhap extends Controller {
                 return {message: "Giải mã refresh token."};
             }
             const payload = checkRefreshToken(body.RefreshToken);
-            const newAccessToken = TaoAcessToken({ userId: payload.userId, role: payload.role })
+            const newAccessToken = TaoAcessToken({ userId: payload.userId, role: payload.role });
 
             return {AccessToken: newAccessToken};
         } catch (error: any) {
@@ -74,10 +74,10 @@ export class DangNhap extends Controller {
     public async Logout(@Body() body: {RefreshToken: string}): Promise<any> {
         if (!body.RefreshToken) {
             this.setStatus(400);
-            return {message: "Không có Refreshtoken."}
+            return {message: "Không có Refreshtoken."};
         }
 
         await LuuTokenBiThuHoiVaoDatabase(body.RefreshToken);
-        return {message: "Loggout successful."}
+        return {message: "Loggout successful."};
     }
 }

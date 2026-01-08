@@ -30,7 +30,7 @@ export class DangKiHocPhanController extends Controller{
                 data: create
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/DangKiHocPhan/createDangKiHocPhan: ${error}`)
+            throw new Error (`Lỗi Controller/DangKiHocPhan/createDangKiHocPhan: ${error}`);
         }
     }
 
@@ -47,7 +47,7 @@ export class DangKiHocPhanController extends Controller{
                 data: lophocphan
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/DangKiHocPhan/TImKiemLopHocPhanDaDangKi: ${error}`)
+            throw new Error (`Lỗi Controller/DangKiHocPhan/TImKiemLopHocPhanDaDangKi: ${error}`);
         }
     }
 
@@ -58,13 +58,13 @@ export class DangKiHocPhanController extends Controller{
     public async doiLophocPhan(@Path() MasoSinhVien: string, @Path() MaMonHoc: string, @Path() MaLopHocPhan: string, @Request req: any): Promise<any> {
         const userRole = req.user?.role;
         try {
-            const update = await this.services.DoiLopHocPhan(userRole, MasoSinhVien, MaMonHoc, MaLopHocPhan)
+            const update = await this.services.DoiLopHocPhan(userRole, MasoSinhVien, MaMonHoc, MaLopHocPhan);
             return {
                 message: "Đã thay đổi lớp học phần thành công.",
                 data: update
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/DangKiHocPhan/doiLophocPhan: ${error}`)
+            throw new Error (`Lỗi Controller/DangKiHocPhan/doiLophocPhan: ${error}`);
         }
 
     }
@@ -76,13 +76,13 @@ export class DangKiHocPhanController extends Controller{
     public async huyDangKiHocPhan(@Path() MasoSinhVien: string, @Path() MaMonHoc: string, @Request req: any) {
         try {
             const userRole = req.user?.role;
-            await this.services.HuyDangKiMotMonHoc(userRole, MasoSinhVien, MaMonHoc)
+            await this.services.HuyDangKiMotMonHoc(userRole, MasoSinhVien, MaMonHoc);
 
             return {
                 message: "Đã huỷ đăng kí học phần thành công."
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/DangKiHocPhan/huyDangKiHocPhan: ${error}`)
+            throw new Error (`Lỗi Controller/DangKiHocPhan/huyDangKiHocPhan: ${error}`);
         }
     }
 }

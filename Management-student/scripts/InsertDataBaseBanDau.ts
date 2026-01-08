@@ -88,7 +88,7 @@ async function InsertDataBaseBanDau() {
         {upsert: true}
     );
 
-    console.log("Insert thành công.")
+    console.log("Insert thành công.");
     await client.close();
 }
 

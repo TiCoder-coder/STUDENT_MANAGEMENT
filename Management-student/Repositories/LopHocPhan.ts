@@ -35,7 +35,7 @@ export class LopHocPhanRepositories extends BaseConnection<LopHocPhan>{
 
     // Hàm dùng để cập nhập số sinh viên hiện tại (lúc đăng kí học phần)
     UpdateSoSinhVienHienTai(MaLopHocPhan: string, SoSinhVienHienTai: number){
-        return this.UpdateOne({MaLopHocPhan}, {$set: {SoSinhVienHienTai}})
+        return this.UpdateOne({MaLopHocPhan}, {$set: {SoSinhVienHienTai}});
     }
     SoSinhVienHienTai(MaLopHocPhan: string, delta: number) {
         return this.UpdateOne({MaLopHocPhan}, {$inc: {SoSinhVienHienTai: delta} as any});

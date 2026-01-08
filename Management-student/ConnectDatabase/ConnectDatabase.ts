@@ -24,7 +24,7 @@ export async function connectDatabase(){
     await db.collection("LopHocPhan").createIndex({MaLopHocPhan: 1}, {unique: true});
     await db.collection("revoked_tokens").createIndex({token: 1}, {unique: true});
 
-    console.log("[MONGODB] Connected DC = ", mongoName)
+    console.log("[MONGODB] Connected DC = ", mongoName);
     return db;
 }
 

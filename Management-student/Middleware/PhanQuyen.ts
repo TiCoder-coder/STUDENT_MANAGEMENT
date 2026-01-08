@@ -6,7 +6,7 @@ import { VaiTroNguoiDung } from "../Enums/Enums";
 export function RequireSinhVien(quyen: string){
     if (!quyen){ throw new Error("Không có quyền truy cập."); }
     if (quyen.toLowerCase() != VaiTroNguoiDung.SinhVien.toLowerCase()){
-        throw new Error("Chỉ có sinh viên mới có thể thực hiện chức năng này.")
+        throw new Error("Chỉ có sinh viên mới có thể thực hiện chức năng này.");
     }
 }
 
@@ -14,7 +14,7 @@ export function RequireSinhVien(quyen: string){
 export function RequireGiangVien(quyen: string){
     if (!quyen){ throw new Error("Không có quyền truy cập."); }
     if (quyen.toLowerCase() != VaiTroNguoiDung.GiangVien.toLowerCase()){
-        throw new Error("Chỉ có giảng viên mới có thể thực hiện chức năng này.")
+        throw new Error("Chỉ có giảng viên mới có thể thực hiện chức năng này.");
     }
 }
 
@@ -22,7 +22,7 @@ export function RequireGiangVien(quyen: string){
 export function RequireAdmin(quyen: string){
     if (!quyen){ throw new Error("Không có quyền truy cập."); }
     if (quyen.toLowerCase() != VaiTroNguoiDung.Admin.toLowerCase()){
-        throw new Error("Chỉ có admin mới có thể thực hiện chức năng này.")
+        throw new Error("Chỉ có admin mới có thể thực hiện chức năng này.");
     }
 }
 
@@ -30,7 +30,7 @@ export function RequireAdmin(quyen: string){
 export function RequireGiangVienOrAdmin(quyen: string){
     if (!quyen){ throw new Error("Không có quyền truy cập."); }
     if (quyen.toLowerCase() != VaiTroNguoiDung.GiangVien.toLowerCase() && quyen.toLowerCase() != VaiTroNguoiDung.Admin.toLowerCase()){
-        throw new Error("Chỉ có giảng viên và admin mới có thể thực hiện chức năng này.")
+        throw new Error("Chỉ có giảng viên và admin mới có thể thực hiện chức năng này.");
     }
 }
 
@@ -38,7 +38,7 @@ export function RequireGiangVienOrAdmin(quyen: string){
 export function RequireSinhVienOrAdmin(quyen: string){
     if (!quyen){ throw new Error("Không có quyền truy cập."); }
     if (quyen.toLowerCase() != VaiTroNguoiDung.SinhVien.toLowerCase() && quyen.toLowerCase() != VaiTroNguoiDung.Admin.toLowerCase()){
-        throw new Error("Chỉ có sinh viên và admin mới có thể thực hiện chức năng này.")
+        throw new Error("Chỉ có sinh viên và admin mới có thể thực hiện chức năng này.");
     }
 }
 

@@ -25,7 +25,7 @@ export async function requireJWT(req: Request, res: Response, next: NextFunction
         // Kiểm tra token
         const token = parts[parts.length - 1]               // Lấy token
         if (!token) {
-            return res.status(401).json({message: "Không có token để kiểm tra."})
+            return res.status(401).json({message: "Không có token để kiểm tra."});
         }
 
         // Kiểm tra token có bị thu hồi hay không
@@ -62,7 +62,7 @@ export async function expressAuthentication(request: Request, securityName: stri
 
     const auth = request.headers.authorization;
 
-    if (!auth) {throw new Error("Không đúng Authurization header.")}
+    if (!auth) { throw new Error("Không đúng Authurization header."); }
 
     const parts = auth.trim().split(/\s+/);
     if (parts.length < 2 || parts[0].toLocaleLowerCase() !== "bearer") {
@@ -70,7 +70,7 @@ export async function expressAuthentication(request: Request, securityName: stri
         }
         const token = parts[parts.length - 1]
         if (!token) {
-            throw new Error ("Không có token để kiểm tra.")
+            throw new Error ("Không có token để kiểm tra.");
         }
 
         if (await KiemTraTokenThuHoi(token)){

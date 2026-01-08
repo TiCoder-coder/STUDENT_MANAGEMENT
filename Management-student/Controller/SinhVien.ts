@@ -65,14 +65,14 @@ export class SinhVienController extends Controller {
     public async GetAllSinhVien(@Request() req: any): Promise <any>{
         try {
             const userRole = req.user?.role;
-            const sinhviens = await this.services.LietKeThongTinTatCaCacSinhVien(userRole)
+            const sinhviens = await this.services.LietKeThongTinTatCaCacSinhVien(userRole);
 
             return {
                 message: "Đã lấy thông tin tất cả sinh viên thành công.",
                 data: sinhviens,
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/SinhVien/GetAllSinhVien: ${error}`)
+            throw new Error (`Lỗi Controller/SinhVien/GetAllSinhVien: ${error}`);
         }
     }
 
@@ -81,21 +81,21 @@ export class SinhVienController extends Controller {
     @Security("bearerAuth")
     @SuccessResponse(200, "Cập nhập thông tin sinh viên thành công.")
     public async UpdateOneSinhVien(@Path() MasoSinhVien: string, @Body() body: UpdateSinhVien, @Request req: any): Promise<any> {
-        const update = plainToInstance(UpdateSinhVien, body)
-        const checkUpdate = await validate(update)
+        const update = plainToInstance(UpdateSinhVien, body);
+        const checkUpdate = await validate(update);
         const userRole = req.user?.role;
         if (checkUpdate.length > 0) {
-            throw new Error(`Lỗi thông tin cập nhập ${JSON.stringify(checkUpdate)}`)
+            throw new Error(`Lỗi thông tin cập nhập ${JSON.stringify(checkUpdate)}`);
         }
         try {
-            const updatesinhvien = await this.services.CapNhapThongTinMotSinhVien(userRole, MasoSinhVien, update)
+            const updatesinhvien = await this.services.CapNhapThongTinMotSinhVien(userRole, MasoSinhVien, update);
 
             return {
                 message: "Đã cập nhập thông tin sinh viên thành công",
                 data: updatesinhvien,
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/SinhVien/UpdateOneSinhVien: ${error}`)
+            throw new Error (`Lỗi Controller/SinhVien/UpdateOneSinhVien: ${error}`);
         }
     }
 
@@ -106,12 +106,12 @@ export class SinhVienController extends Controller {
     public async DeleteOneSinhVien(@Path() MasoSinhVien: string, @Request req: any): Promise<any> {
         try {
             const userRole = req.user?.role;
-            await this.services.XoaThongTinMotSinhVien(userRole, MasoSinhVien)
+            await this.services.XoaThongTinMotSinhVien(userRole, MasoSinhVien);
             return {
                 message: "Đã xoá sinh viên thành công.",
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/SinhVien/DeleteOneSinhVien: ${error}`)
+            throw new Error (`Lỗi Controller/SinhVien/DeleteOneSinhVien: ${error}`);
         }
     }
     

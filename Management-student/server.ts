@@ -24,8 +24,8 @@ async function run() {
 			console.log("Test các API tại http://localhost:3000/docs");
 		});
 	} catch (error: any) {
-		console.error(`BOOT ERROR: ${error}`)
-		process.exit(1)
+		console.error(`BOOT ERROR: ${error}`);
+		process.exit(1);
 	}
 }
 

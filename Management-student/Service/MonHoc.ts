@@ -12,7 +12,7 @@ export class MonHocServices{
     async createMonHoc(UserRole: string, monhoc: CreateMonHoc){
         try {
 
-            RequireAdmin(UserRole)              // Chỉ có admin mới được insert thông tin xuống database
+            RequireAdmin(UserRole);              // Chỉ có admin mới được insert thông tin xuống database
             
             // Kiểm tra môn học xem có tồn tại trước đó hay không
             const monhocRepositories = new MonHocRepositories();
@@ -31,12 +31,12 @@ export class MonHocServices{
 
             // Kiểm tra số tín chỉ
             if (monhoc.SoTinChi < 0){
-                throw new Error("Số tín chỉ không được nhỏ hơn 0.")
+                throw new Error("Số tín chỉ không được nhỏ hơn 0.");
             }
             
             // Kiểm tra học phí môn học
             if (monhoc.HocPhiMonHoc < 0){
-                throw new Error("Số tín chỉ không được nhỏ hơn 0.")
+                throw new Error("Số tín chỉ không được nhỏ hơn 0.");
             }
 
             // Kiểm tra xem mã lớp học phần cho môn học có tồn tại không
@@ -68,7 +68,7 @@ export class MonHocServices{
             const monhocRepositories = new MonHocRepositories();
             const checkMonHoc = await monhocRepositories.FindOneMonHoc(MaMonHoc);
             if (!checkMonHoc){
-                throw new Error(`Không tìm thấy môn học ${MaMonHoc}`)
+                throw new Error(`Không tìm thấy môn học ${MaMonHoc}`);
             }
             return {
                 MaMonHoc: checkMonHoc.MaMonHoc,
@@ -114,7 +114,7 @@ export class MonHocServices{
     async UpdateOneMonHoc(UserRole: string, MaMonHoc: string, update: UpdateMonHoc){
         try{
 
-            RequireAdmin(UserRole)
+            RequireAdmin(UserRole);
             
             const keys: (keyof MonHoc)[] = [];
             const values: any[] = [];
@@ -136,46 +136,46 @@ export class MonHocServices{
 
             if (update.BatBuoc !== undefined) {
                 if (update.BatBuoc !== MonHocBatBuoc.Co && update.BatBuoc !== MonHocBatBuoc.Khong){
-                    throw new Error ("Thuộc tính BatBuoc phải là Co hoặc Khong.")
+                    throw new Error ("Thuộc tính BatBuoc phải là Co hoặc Khong.");
                 } else {
-                    keys.push("BatBuoc")
-                    values.push(update.BatBuoc)
+                    keys.push("BatBuoc");
+                    values.push(update.BatBuoc);
                 }
             }
 
             if (update.SoTinChi !== undefined) {
                 if (update.SoTinChi < 0){
-                    throw new Error("Số tín chỉ không được nhỏ hơn 0.")
+                    throw new Error("Số tín chỉ không được nhỏ hơn 0.");
                 } else {
-                    keys.push("SoTinChi")
-                    values.push(update.SoTinChi)
+                    keys.push("SoTinChi");
+                    values.push(update.SoTinChi);
                 }
                 }
             
             if (update.HocPhiMonHoc !== undefined ) {
                 if (update.HocPhiMonHoc < 0){
-                    throw new Error("Học phí môn không được nhỏ hơn 0.")
+                    throw new Error("Học phí môn không được nhỏ hơn 0.");
                 } else {
-                    keys.push("HocPhiMonHoc")
-                    values.push(update.HocPhiMonHoc)
+                    keys.push("HocPhiMonHoc");
+                    values.push(update.HocPhiMonHoc);
                 }
             }
             
             if (update.HinhThucHoc !== undefined) {
                 if (update.HinhThucHoc !== HinhThucHoc.Offline && update.HinhThucHoc !== HinhThucHoc.Online){
-                    throw new Error ("Thuộc tính HinhThucHoc phải là Offline hoặc Online.")
+                    throw new Error ("Thuộc tính HinhThucHoc phải là Offline hoặc Online.");
                 } else {
-                    keys.push("HinhThucHoc")
-                    values.push(update.HinhThucHoc)
+                    keys.push("HinhThucHoc");
+                    values.push(update.HinhThucHoc);
                 }
             }
             
             // const checkMaLopHocPhan = await monhocRepositories.FindMonHocTheoMaHocPhan(update.MaLopHocPhan);
             // if (checkMaLopHocPhan){
-            //     throw new Error("Mã lớp học phần của môn học đã tồn tại."); 
+            //     throw new Error("Mã lớp học phần của môn học đã tồn tại.");
             // }  else {
-            //     keys.push("MaLopHocPhan")
-            //     values.push(update.MaLopHocPhan)
+            //     keys.push("MaLopHocPhan");
+            //     values.push(update.MaLopHocPhan);
             // }
 
             const ThongtinUpdate: Record<string, any> = {};
@@ -184,7 +184,7 @@ export class MonHocServices{
             }
 
             if (Object.keys(ThongtinUpdate).length === 0){
-                return "Không có thông tin để cập nhập."
+                return "Không có thông tin để cập nhập.";
             }
 
             await monhocRepositories.UpdateOneMonHoc(MaMonHoc, ThongtinUpdate);
@@ -214,7 +214,7 @@ export class MonHocServices{
                 throw new Error( "Không tồn tại thông tin môn học để delete."); 
             } else {
                 await monhocRepositories.DeleteOneMonHoc(MaMonHoc);
-                return "Đã xoá môn học thành công."
+                return "Đã xoá môn học thành công.";
             }
             
         } catch (error: any) {
