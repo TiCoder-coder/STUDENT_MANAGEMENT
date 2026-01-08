@@ -63,7 +63,7 @@ export class DangKihocPhanServices{
             if (tongSoTinChi + soTinChiCuaMonHocHienTai > SOTINCHIMAX || soMon + 1 > SOMONHOCMAX) {
                 throw new Error("Đã đăng kí quá số môn và số tín chỉ cho phép.");
             }
-
+                        
             const datadangkihocphan = {
                 MasoSinhVien: dangkihocphan.MasoSinhVien,
                 MaMonHoc: dangkihocphan.MaMonHoc,

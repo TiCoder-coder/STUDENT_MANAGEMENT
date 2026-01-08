@@ -7,9 +7,12 @@ import { UpdateDangKihocPhan } from "../Dtos/DangKiHocPhan/UpdateDangKiHocPhan"
 
 @Route("API/v1/DangKiHocPhan")
 @Tags("DangKiHocPhan")
+
+// Tạo ra một class chứa các function CRUD để call API và gọi xuống tầng service
 export class DangKiHocPhanController extends Controller{
     private services = new DangKihocPhanServices()
 
+    // Hàm dùng để call tới chức năng create đăng kí học phần của service sau đó kiểm tra và thực thi nó
     @Post("CreateDangKiHocPhan")
     @Security("bearerAuth")
     @SuccessResponse(201, "Tạo thành công")
@@ -31,6 +34,7 @@ export class DangKiHocPhanController extends Controller{
         }
     }
 
+    // Hàm dùng để call tới chức năng tìm kiếm một lớp học phần của service sau đó kiểm tra và thực thi nó
     @Get("TimKiemLopHocPhanDaDangKi/{MasoSinhVien}/{MaMonHoc}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Tìm kiếm thành công")
@@ -47,6 +51,7 @@ export class DangKiHocPhanController extends Controller{
         }
     }
 
+    // Hàm dùng để call tới chức năng đổi lớp học phần của service sau đó kiểm tra và thực thi nó
     @Put("DoiLophocPhan/{MasoSinhVien}/{MaMonHoc}/{MaLopHocPhan}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Đã đổi học phần thành công")
@@ -64,6 +69,7 @@ export class DangKiHocPhanController extends Controller{
 
     }
 
+    // Hàm dùng để call tới chức năng huỷ đăng kí học phần của service sau đó kiểm tra và thực thi nó
     @Delete("HuyDangKiHocPhan/{MasoSinhVien}/{MaMonHoc}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Huỷ thành công")

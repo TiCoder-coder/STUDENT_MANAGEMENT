@@ -8,8 +8,11 @@ export interface DangKiHocPhan{
     MasoSinhVien: string;
     MaLopHocPhan: string;
     MaMonHoc: string;
-
     TrangThaiDangKi ?: TrangThaiDangKi;
+    SoTinChiDaDangKi?: number;
+    SoMonDaDangKi?: number;
+    createdAt?: Date;
+    updatedAt?: Date;
 
 }
 
@@ -28,12 +31,12 @@ export class DangKiHocPhanRepositories extends BaseConnection<DangKiHocPhan> {
 
     // Hàm dùng để lấy số tín chỉ và số môn để tính toán
     async GetTongTinChiVaSoMon(MasoSinhVien: string) {
-        const dangkihocphan = getCollection<DangKiHocPhan>("DangKiHocPhan");
+        const dangkihocphan = getCollection<any>("DangKiHocPhan");
         const check = await dangkihocphan.find({MasoSinhVien, TrangThaiDangKi: TrangThaiDangKi.DaDangKi})
         .project({SoTinChiDaDangKi: 1}).toArray();
 
         const soMon = check.length;
-        const tongSoTinChi = check.reduce((sum, x) => sum + (Number(x.SoTinChiDaDangKi ) || 0), 0);
+        const tongSoTinChi = check.reduce((sum: number, x) => sum + (Number(x.SoTinChiDaDangKi ) || 0), 0);
 
         return {soMon, tongSoTinChi};
     }

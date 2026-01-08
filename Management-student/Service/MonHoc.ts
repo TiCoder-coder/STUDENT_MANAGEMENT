@@ -67,16 +67,17 @@ export class MonHocServices{
 
             const monhocRepositories = new MonHocRepositories();
             const checkMonHoc = await monhocRepositories.FindOneMonHoc(MaMonHoc);
-            if (checkMonHoc){
-                return {
-                    MaMonHoc: checkMonHoc.MaMonHoc,
-                    TenMonHoc: checkMonHoc.TenMonHoc,
-                    BatBuoc: checkMonHoc.BatBuoc,
-                    SoTinChi: checkMonHoc.SoTinChi,
-                    HinhThucHoc: checkMonHoc.HinhThucHoc,
-                    HocPhiMonHoc: checkMonHoc.HocPhiMonHoc
-                    // MaLopHocPhan: checkMonHoc.MaLopHocPhan
-                }
+            if (!checkMonHoc){
+                throw new Error(`Không tìm thấy môn học ${MaMonHoc}`)
+            }
+            return {
+                MaMonHoc: checkMonHoc.MaMonHoc,
+                TenMonHoc: checkMonHoc.TenMonHoc,
+                BatBuoc: checkMonHoc.BatBuoc,
+                SoTinChi: checkMonHoc.SoTinChi,
+                HinhThucHoc: checkMonHoc.HinhThucHoc,
+                HocPhiMonHoc: checkMonHoc.HocPhiMonHoc
+                // MaLopHocPhan: checkMonHoc.MaLopHocPhan
             }
 
         } catch (error: any) {
@@ -133,31 +134,40 @@ export class MonHocServices{
                 values.push(update.TenMonHoc);
             }
 
-            if (update.BatBuoc !== MonHocBatBuoc.Co && update.BatBuoc !== MonHocBatBuoc.Khong){
-                throw new Error ("Thuộc tính BatBuoc phải là Co hoặc Khong.")
-            } else {
-                keys.push("BatBuoc")
-                values.push(update.BatBuoc)
+            if (update.BatBuoc !== undefined) {
+                if (update.BatBuoc !== MonHocBatBuoc.Co && update.BatBuoc !== MonHocBatBuoc.Khong){
+                    throw new Error ("Thuộc tính BatBuoc phải là Co hoặc Khong.")
+                } else {
+                    keys.push("BatBuoc")
+                    values.push(update.BatBuoc)
+                }
             }
 
-            if (update.SoTinChi < 0){
-                throw new Error("Số tín chỉ không được nhỏ hơn 0.")
-            } else {
-                keys.push("SoTinChi")
-                values.push(update.SoTinChi)
+            if (update.SoTinChi !== undefined) {
+                if (update.SoTinChi < 0){
+                    throw new Error("Số tín chỉ không được nhỏ hơn 0.")
+                } else {
+                    keys.push("SoTinChi")
+                    values.push(update.SoTinChi)
+                }
+                }
+            
+            if (update.HocPhiMonHoc !== undefined ) {
+                if (update.HocPhiMonHoc < 0){
+                    throw new Error("Học phí môn không được nhỏ hơn 0.")
+                } else {
+                    keys.push("HocPhiMonHoc")
+                    values.push(update.HocPhiMonHoc)
+                }
             }
             
-            if (update.HocPhiMonHoc < 0){
-                throw new Error("Học phí môn không được nhỏ hơn 0.")
-            } else {
-                keys.push("HocPhiMonHoc")
-                values.push(update.HocPhiMonHoc)
-            }
-            if (update.HinhThucHoc !== HinhThucHoc.Offline && update.HinhThucHoc !== HinhThucHoc.Online){
-                throw new Error ("Thuộc tính HinhThucHoc phải là Offline hoặc Online.")
-            } else {
-                keys.push("HinhThucHoc")
-                values.push(update.HinhThucHoc)
+            if (update.HinhThucHoc !== undefined) {
+                if (update.HinhThucHoc !== HinhThucHoc.Offline && update.HinhThucHoc !== HinhThucHoc.Online){
+                    throw new Error ("Thuộc tính HinhThucHoc phải là Offline hoặc Online.")
+                } else {
+                    keys.push("HinhThucHoc")
+                    values.push(update.HinhThucHoc)
+                }
             }
             
             // const checkMaLopHocPhan = await monhocRepositories.FindMonHocTheoMaHocPhan(update.MaLopHocPhan);

@@ -9,9 +9,12 @@ import { checkRefreshToken, TaoAcessToken, TaoRefreshToken } from "../Middleware
 
 @Route("API/v1/SinhVien")
 @Tags("SinhVien")
+
+// Tạo ra một class chứa các function CRUD để call API và gọi xuống tầng service
 export class SinhVienController extends Controller {
     private services = new SinhVienServices()
 
+    // Hàm dùng để call tới chức năng create sinh viên của service sau đó kiểm tra và thực thi nó
     @Post("PostSinhVien")
     @Security("bearerAuth")
     @SuccessResponse(201, "Insert sinh viên thành công")
@@ -37,6 +40,7 @@ export class SinhVienController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng lấy thông tin một sinh viên của service sau đó kiểm tra và thực thi nó
     @Get("GetOneSinhVien/{MasoSinhVien}")
     @Security("bearerAuth")
     @SuccessResponse("200", "Lấy thông tin sinh viên thành công")
@@ -54,6 +58,7 @@ export class SinhVienController extends Controller {
 
     }
 
+    // Hàm dùng để call tới chức năng lấy thông tin tất cả sinh viên của service sau đó kiểm tra và thực thi nó
     @Get("GetAllSinhVien")
     @Security("bearerAuth")
     @SuccessResponse(200, "Lấy thông tin tất cả sinh viên thành công")
@@ -71,6 +76,7 @@ export class SinhVienController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng cập nhập thông tin một sinh viên của service sau đó kiểm tra và thực thi nó
     @Put("UpdateOneSinhVien/{MasoSinhVien}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Cập nhập thông tin sinh viên thành công.")
@@ -82,7 +88,7 @@ export class SinhVienController extends Controller {
             throw new Error(`Lỗi thông tin cập nhập ${JSON.stringify(checkUpdate)}`)
         }
         try {
-            const updatesinhvien = this.services.CapNhapThongTinMotSinhVien(userRole, MasoSinhVien, update)
+            const updatesinhvien = await this.services.CapNhapThongTinMotSinhVien(userRole, MasoSinhVien, update)
 
             return {
                 message: "Đã cập nhập thông tin sinh viên thành công",
@@ -93,13 +99,14 @@ export class SinhVienController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng xoá thông tin một sinh viên của service sau đó kiểm tra và thực thi nó
     @Delete("DeleteOneSinhVien/{MasoSinhVien}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Xoá sinh viên thành công.")
     public async DeleteOneSinhVien(@Path() MasoSinhVien: string, @Request req: any): Promise<any> {
         try {
             const userRole = req.user?.role;
-            const deletesinhvien = await this.services.XoaThongTinMotSinhVien(userRole, MasoSinhVien)
+            await this.services.XoaThongTinMotSinhVien(userRole, MasoSinhVien)
             return {
                 message: "Đã xoá sinh viên thành công.",
             }

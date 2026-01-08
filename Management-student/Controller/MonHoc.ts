@@ -7,10 +7,13 @@ import { UpdateMonHoc } from "../Dtos/MonHoc/UpdateMonHoc"
 
 @Route("API/v1/MonHoc")
 @Tags("MonHoc")
+
+// Tạo ra một class chứa các function CRUD để call API và gọi xuống tầng service
 export class MonHocController extends Controller {
     
     private services = new MonHocServices()
 
+    // Hàm dùng để call tới chức năng create môn học của service sau đó kiểm tra và thực thi nó
     @Post("CreateMonHoc")
     @Security("bearerAuth")
     @SuccessResponse(201, "Tạo thành công.")
@@ -33,6 +36,7 @@ export class MonHocController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng lấy thông tin một môn học  của service sau đó kiểm tra và thực thi nó
     @Get("GetOneMonHoc/{MaMonHoc}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Tìm kiếm thành công")
@@ -48,6 +52,7 @@ export class MonHocController extends Controller {
         }        
     }
 
+    // Hàm dùng để call tới chức năng lấy tất cả thông tin của service sau đó kiểm tra và thực thi nó
     @Get("GetAllMonHoc")
     @Security("bearerAuth")
     @SuccessResponse(200, "Liệt kê thành công")
@@ -64,6 +69,7 @@ export class MonHocController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng cập nhập thông tin môn học của service sau đó kiểm tra và thực thi nó
     @Put("CapNhapMonHoc/{MaMonHoc}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Cập nhập thành công")
@@ -71,7 +77,7 @@ export class MonHocController extends Controller {
         const monhoc = plainToInstance(UpdateMonHoc, body)
 
         const checkmonhoc = await validate(monhoc)
-        if (checkmonhoc.length > 0) { throw new Error (`Sai thông tin cập nhập: ${JSON.stringify(monhoc)}`)}
+        if (checkmonhoc.length > 0) { throw new Error (`Sai thông tin cập nhập: ${JSON.stringify(checkmonhoc)}`)}
         try {
             const userRole = req.user?.role;
             const update = await this.services.UpdateOneMonHoc(userRole, MaMonHoc, monhoc)
@@ -80,10 +86,11 @@ export class MonHocController extends Controller {
                 data: update
             }
         } catch (error: any) {
-            throw new Error (`Lỗi Controller/Monhoc/DeleteMonHoc: ${error}`)
+            throw new Error (`Lỗi Controller/Monhoc/CapNhapMonHoc: ${error}`)
         }
     }
 
+    // Hàm dùng để call tới chức năng xoá một môn học của service sau đó kiểm tra và thực thi nó
     @Delete("DeleteMonHoc/{MaMonHoc}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Xoá thành công")

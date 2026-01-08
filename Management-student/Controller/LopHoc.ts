@@ -8,10 +8,13 @@ import { UpdateMaLopHocPhan } from "../Dtos/LopHocPhan/UpdateLopHocPhan"
 
 @Route("API/v1/LopHoc")
 @Tags("LopHoc")
+
+// Tạo ra một class chứa các function CRUD để call API và gọi xuống tầng service
 export class LopHocController extends Controller {
     
     private services = new LopHocPhanServices()
 
+    // Hàm dùng để call tới chức năng create một lớp học phần của service sau đó kiểm tra và thực thi nó
     @Post("CreateLopHoc")
     @Security("bearerAuth")
     @SuccessResponse(201, "Tạo thành công")
@@ -34,6 +37,7 @@ export class LopHocController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng tìm kiếm lớp học phần của service sau đó kiểm tra và thực thi nó
     @Get("GetOneLopHoc/{MaLopHocPhan}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Tìm kiếm thành công")
@@ -50,6 +54,7 @@ export class LopHocController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng lấy tất cả lớp học phần của service sau đó kiểm tra và thực thi nó
     @Get("GetAllLopHoc")
     @Security("bearerAuth")
     @SuccessResponse(200, "Liệt kê thành công")
@@ -66,6 +71,7 @@ export class LopHocController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng cập nhập thông tin lớp học phần của service sau đó kiểm tra và thực thi nó
     @Put("UpdateLopHoc/{MaLopHocPhan}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Cập nhập thành công")
@@ -73,7 +79,7 @@ export class LopHocController extends Controller {
         const lophoc = plainToInstance(UpdateMaLopHocPhan, body)
         const checklophoc = await validate(lophoc)
         const userRole = req.user?.role;
-        if (checklophoc.length > 0) { throw new Error(`Lỗi thông tin cập nhập: ${checklophoc}`)}
+        if (checklophoc.length > 0) { throw new Error(`Lỗi thông tin cập nhập: ${JSON.stringify(checklophoc)}`)}
         try {
             const update = await this.services.UpdateOneMonHoc(userRole, MaLopHocPhan, lophoc);
             return {
@@ -85,6 +91,7 @@ export class LopHocController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng xoá thông tin lớp học phần của service sau đó kiểm tra và thực thi nó
     @Delete("DeleteMonHoc/{MaLopHocPhan}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Xoá thành công")

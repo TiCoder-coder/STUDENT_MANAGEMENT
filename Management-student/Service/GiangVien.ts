@@ -1,6 +1,6 @@
 import { CreateGiangVien } from "../Dtos/GiangVien/CreateGiangVien";
 import { UpdateGiangVien } from "../Dtos/GiangVien/UpdateGiangVien";
-import { GioiTinh, TrangThaiHoatDongGiangVien } from "../Enums/Enums";
+import { GioiTinh, TrangThaiHoatDongGiangVien, VaiTroNguoiDung } from "../Enums/Enums";
 import { RequireAdmin, RequireGiangVienOrAdmin } from "../Middleware/PhanQuyen";
 import { TaoAcessToken, TaoRefreshToken, TokenPayload } from "../Middleware/XuLyToken";
 import { GiangVien, GiangVienRepositories } from "../Repositories/GiangVien";
@@ -28,8 +28,11 @@ export class GiangVienServices{
 
             // Kiểm tra trạng thái giảng viên có đúng trong enum hay không
             if (giangvien.TrangThai !== TrangThaiHoatDongGiangVien.DangDay && giangvien.TrangThai !== TrangThaiHoatDongGiangVien.TamNgungDay && giangvien.TrangThai !== TrangThaiHoatDongGiangVien.KhongConDay){
-                throw new Error("Trạng thái học tập của giảng viên phải là: DangHoc, TamNgungHoc, KhongConHoc");
+                throw new Error("Trạng thái giảng viên phải là: DangDay, TamNgungDay, KhongConDay");
             }
+
+            if (giangvien.VaiTro !== VaiTroNguoiDung.GiangVien) throw new Error("Vai trò không phù hợp.");
+
 
             // Kiểm tra giới tình giảng sinh có đúng trong enum hay không
             if(giangvien.GioiTinhGiangVien !== GioiTinh.Nam && giangvien.GioiTinhGiangVien !== GioiTinh.Nu && giangvien.GioiTinhGiangVien !== GioiTinh.Khac){
@@ -43,7 +46,7 @@ export class GiangVienServices{
             if (await giangvienRepositories.FindOneGiangVienByUsername(giangvien.UserName)){ throw new Error("Lỗi username. Username đã bị trùng.")}
             
             // Kiểm tra email có bị trùng hay không
-            if (await giangvienRepositories.FindOneGiangVienByEmail(giangvien.UserName)) {throw new Error("Lỗi email. Email đã bi trùng.")}
+            if (await giangvienRepositories.FindOneGiangVienByEmail(giangvien.Email)) {throw new Error("Lỗi email. Email đã bi trùng.")}
             
             // Kiểm tra email có đúng định dạng hay không
             if (!KiemTraDinhDangEmail(giangvien.Email)){ throw new Error("Lỗi email. Email bị sai định dạng.");}
@@ -227,14 +230,15 @@ export class GiangVienServices{
 
             // Kiểm tra vai trò
             if (giangvien.VaiTro){
+                if (giangvien.VaiTro !== VaiTroNguoiDung.GiangVien) throw new Error("Vai trò không phù hợp.");
                 keys.push("VaiTro")
                 values.push(giangvien.VaiTro)
             }
 
             // Cập nhập email (nếu có)
             if (giangvien.Email){
-
-                if (!giangvienRepositories.FindOneGiangVienByEmail(giangvien.UserName)) {throw new Error("Lỗi email. Email đã bi trùng.")}
+                const existed = await giangvienRepositories.FindOneGiangVienByEmail(giangvien.Email);
+                if ( existed && existed.MaSoGiangVien !== MaSoGiangVien) {throw new Error("Lỗi email. Email đã bi trùng.")}
             
                 // Kiểm tra email có đúng định dạng hay không
                 if (!KiemTraDinhDangEmail(giangvien.Email)){ 
@@ -247,7 +251,8 @@ export class GiangVienServices{
 
             // Cập nhập username (nếu có)
             if(giangvien.UserName){
-                if (!(await giangvienRepositories.findoneGiangVien(giangvien.UserName))){ 
+                const existed = await giangvienRepositories.findoneGiangVien(giangvien.UserName)
+                if (existed && existed.MaSoGiangVien !== MaSoGiangVien){ 
                     throw new Error("Lỗi username. Username đã bị trùng.");
                 } else {
                     keys.push("UserName")
@@ -257,23 +262,19 @@ export class GiangVienServices{
 
             // Cập nhập mật khẩu (nếu có)
             if (giangvien.Password) {
-                if (KiemTraMatKhauManh(
-                    giangvien.Password)) { throw new Error("Mật khẩu yếu.");
-                } else {
-                    const hash = await hashpassword(giangvien.Password);
-                    keys.push("Password")
-                    values.push(hash)
-                }
+                const hash = await hashpassword(giangvien.Password);
+                keys.push("Password")
+                values.push(hash)
             }
 
             // Kiểm tra số lần đăng nhập thất bại
-            if (giangvien.SoLamDangNhapThatBai){
+            if (giangvien.SoLamDangNhapThatBai !== undefined){
                 keys.push("SoLamDangNhapThatBai")
                 values.push(giangvien.SoLamDangNhapThatBai)
             }
 
             // Kiểm tra không cho đăng nhập tới khi nào 
-            if (giangvien.KhongChoDangNhapToi){
+            if (giangvien.KhongChoDangNhapToi !== undefined){
                 keys.push("KhongChoDangNhapToi")
                 values.push(giangvien.KhongChoDangNhapToi)
             }
@@ -319,7 +320,7 @@ export class GiangVienServices{
             
             // Kiểm trâ xem giảng viên có tồn tại hay không để xoá thông tin
             const checkGiangVien = await giangvienRepositories.findoneGiangVien(MaSoGiangVien);
-            if (checkGiangVien) {
+            if (!checkGiangVien) {
                 throw new Error("Giảng viên không tồn tại")
             }
             

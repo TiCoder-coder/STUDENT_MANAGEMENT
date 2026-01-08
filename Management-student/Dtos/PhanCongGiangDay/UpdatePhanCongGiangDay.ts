@@ -5,14 +5,14 @@ export class UpdatePhanCongGiangDay{
 
     // Mã số giảng viên (cho biết giáo viên nào sẽ dạy lớp học phần đó )
     @IsString()
-    @Length(3, 20)
     @IsOptional()
+    @Length(3, 20)
     MaSoGiangVien: string;                                           // FORIEGN KEY
 
     // Mã lớp học phần (cho biết giáo viên đó sẽ dạy lớp nào và môn nào)
     @IsString()
-    @Length(3, 100)
     @IsOptional()
+    @Length(3, 100)
     MaLopHocPhan: string;                                           // FORIEGN KEY
 
 }

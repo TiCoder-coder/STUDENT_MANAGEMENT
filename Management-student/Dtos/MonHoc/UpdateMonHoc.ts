@@ -18,19 +18,20 @@ export class UpdateMonHoc{
     TenMonHoc: string;
 
     // Enum cho biết môn học có phải là môn bắt buộc hay không
-    @IsString()
     @IsEnum(MonHocBatBuoc)
+    @IsString()
     @IsOptional()
     BatBuoc: MonHocBatBuoc = MonHocBatBuoc.Co;
     
     // Sô tín chỉ của môn học
-    @IsNumber()
     @Type(() => Number)
+    @IsNumber()
     @Min(0)
     @IsOptional()
     SoTinChi: number;
     
     // Học phí của môn học
+    @Type(() => Number)
     @IsNumber()
     @IsOptional()
     HocPhiMonHoc: number;

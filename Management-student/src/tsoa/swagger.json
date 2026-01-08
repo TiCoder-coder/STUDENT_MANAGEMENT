@@ -850,14 +850,6 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "MaSoGiangVien",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"in": "path",
 						"name": "MaLopHocPhan",
 						"required": true,
 						"schema": {
@@ -1422,7 +1414,7 @@
 		},
 		"/API/v1/GiangVien/UpdateOneGiangVien/{MaSoGiangVien}": {
 			"put": {
-				"operationId": "UpdateOneSinhVien",
+				"operationId": "UpdateOneGiangVien",
 				"responses": {
 					"200": {
 						"description": "Cập nhập thông tin giảng viên thành công.",

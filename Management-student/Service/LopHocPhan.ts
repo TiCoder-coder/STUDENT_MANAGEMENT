@@ -86,7 +86,7 @@ export class LopHocPhanServices{
             // Kiểm tra môn học mà muốn mở lớp học phần có tồn tại hay không
             const monhocRepositories = new MonHocRepositories()
             const checkMonHoc = await monhocRepositories.FindOneMonHoc(lophocphan.MaMonHoc);
-            if (!checkMonHoc) {throw new Error("Không tồn tại mã lớp."); }
+            if (!checkMonHoc) {throw new Error("Không tồn tại mã môn học."); }
             
             // Kiểm tra định dạng ngày tháng năm
             SoSanhNgay(lophocphan.NgayBatDau, lophocphan.NgayKetThuc);
@@ -270,8 +270,16 @@ export class LopHocPhanServices{
 
             // Tiến hành cập nhập
             await lophocphanRepositories.UpdateOneLopHocPhan(MaLopHocPhan, ThongtinUpdate);
-            return "Đã cập nhập thông tin môn học thành công.";
-
+            return {
+                MaLopHocPhan: checkLopHocPhan.MaLopHocPhan,
+                MaMonHocv: checkLopHocPhan.MaMonHoc,
+                NgayBatDau: checkLopHocPhan.NgayBatDau,
+                NgayKetThuc: checkLopHocPhan.NgayKetThuc,
+                SoSinhVienHienTai: checkLopHocPhan.SoSinhVienHienTai,
+                SoSinhVienToiThieu: checkLopHocPhan.SoSinhVienToiThieu,
+                SoSinhVienToiDa: checkLopHocPhan.SoSinhVienToiDa,
+                TrangThaiLopHoc: checkLopHocPhan.TrangThaiLopHoc
+            }
         } catch (error: any) {
             throw new Error (`Lỗi Service/LopHocPhan/UpdateOneMonHoc: ${error}`);
         }

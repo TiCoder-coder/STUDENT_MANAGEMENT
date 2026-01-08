@@ -8,20 +8,20 @@ export class UpdateGiangVien{
 
     // Mã số giảng viên --- khoá chính cho table
     @IsString()
-    @Length(3, 20)
     @IsOptional()
+    @Length(3, 20)
     MaSoGiangVien: string;                                              // PRIMARY KEY
 
     // Tên giảng viên
     @IsString()
-    @Length(1, 100)
     @IsOptional()
+    @Length(1, 100)
     TenGiangVien: string;
 
     // Ngày sinh của giảng viên
-    @IsOptional()
-    @IsDate()
     @Type(() => Date)
+    @IsDate()
+    @IsOptional()
     NgaySinh: Date;
 
     // Nơi sinh của giảng viên
@@ -30,25 +30,22 @@ export class UpdateGiangVien{
     NoiSinh: string;
 
     // Giới tính của giảng viên
-    @IsString()
     @IsEnum(GioiTinh)
     @IsOptional()
     GioiTinhGiangVien: GioiTinh;
 
     // Chuyên nghành của giảng viên
     @IsString()
-    @Length(3, 300)
     @IsOptional()
+    @Length(3, 300)
     ChuyenNghanh: string;
 
     // Trạng thái giảng dạy của giảng viên ở trường
-    @IsString()
     @IsEnum(TrangThaiHoatDongGiangVien)
     @IsOptional()
     TrangThai: TrangThaiHoatDongGiangVien;
 
     // Vai trò của giảng viên
-    @IsString()
     @IsEnum(VaiTroNguoiDung)
     @IsOptional()
     VaiTro: VaiTroNguoiDung = VaiTroNguoiDung.GiangVien;
@@ -61,15 +58,17 @@ export class UpdateGiangVien{
     // Username cho tên tài khoản của giảng viên
     @IsString()
     @IsOptional()
+    @Length(3, 100)
     UserName: string;
 
     // Password cho tài khoản của giảng viên
     @IsString()
-    @MinLength(8)
     @IsOptional()
+    @MinLength(8)
     Password: string;
 
     // Số lần đăng nhập thất bại --- thuộc tính này sẽ tự cập nhập
+    @Type(() => Number)
     @IsNumber()
     @IsOptional()
     SoLamDangNhapThatBai?: number = 0;

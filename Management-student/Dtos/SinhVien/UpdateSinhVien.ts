@@ -7,18 +7,19 @@ export class UpdateSinhVien{
 
     // Mã số sinh viên
     @IsString()
-    @Length(3, 100)
     @IsOptional()
+    @Length(3, 100)
     MasoSinhVien: string;                                                       // PRIMARY KEY
 
     // Họ và tên của sinh viên
     @IsString()
-    @Length(1, 300)
     @IsOptional()
+    @Length(1, 300)
     HoVaTenSinhVien: string;
 
     // Ngày sinh của sinh viên
     @Type(() => Date)
+    @IsDate()
     @IsOptional()
     NgaySinh: Date;
 
@@ -40,20 +41,19 @@ export class UpdateSinhVien{
     ChuyenNghanh: string;
 
     // Khoá học của sinh viên thuộc năm bao nhiêu
+    @Type(() => Number)
     @IsNumber()
     @IsOptional()
     KhoaHoc: number;
 
     // Trạng thái học tập của sinh viên
-    @IsString()
-    @IsOptional()
     @IsEnum(TrangThaiHoatDong)
+    @IsOptional()
     TrangThai: TrangThaiHoatDong;
 
     // Vai trò của sinh viên
-    @IsString()
-    @IsOptional()
     @IsEnum(VaiTroNguoiDung)
+    @IsOptional()
     VaiTro: VaiTroNguoiDung = VaiTroNguoiDung.SinhVien;
 
     // Email của sinh viên
@@ -74,11 +74,13 @@ export class UpdateSinhVien{
 
     // Số lần đăng nhập thất bại
     @Type(() => Number)
+    @IsNumber()
     @IsOptional()
     SoLamDangNhapThatBai: number;
 
     //Nếu sai quá số lần quy định thì sẽ khóa tài khoản sinh viên trong một khoảng thời gian
     @Type(() => Date)
+    @IsDate()
     @IsOptional()
     KhongChoDangNhapToi: Date;
 

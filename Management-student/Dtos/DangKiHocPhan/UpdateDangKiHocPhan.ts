@@ -23,8 +23,8 @@ export class UpdateDangKihocPhan{
     MaLopHocPhan: string;                                             // FORIEGN KEY
     
     // Trạng thái đã đăng kí
-    @IsString()
-    @IsOptional()
+    @IsEnum()
+    @IsOptional(TrangThaiDangKi)
     TrangThaiDangKi: TrangThaiDangKi = TrangThaiDangKi.DaDangKi;
     
 }

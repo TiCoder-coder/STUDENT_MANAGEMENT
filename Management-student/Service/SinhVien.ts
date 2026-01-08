@@ -175,6 +175,8 @@ export class SinhVienServices{
             sinhvien.NoiSinh = ChuanHoaHoTen(sinhvien.NoiSinh);
             sinhvien.ChuyenNghanh = ChuanHoaHoTen(sinhvien.ChuyenNghanh);
             sinhvien.Password = await hashpassword(sinhvien.Password)
+            sinhvien.Email = sinhvien.Email.trim()
+            sinhvien.UserName = sinhvien.UserName.trim()
 
             const newsinhvien: SinhVien = {
                 ...sinhvien,
@@ -362,45 +364,41 @@ export class SinhVienServices{
 
             // Cập nhập email (nếu có)
             if (sinhvien.Email){
-                if (!sinhvienRepositories.FindOneSinhVienByEmail(sinhvien.UserName)) {throw new Error("Lỗi email. Email đã bi trùng.")}
-            
                 // Kiểm tra email có đúng định dạng hay không
-                if (!KiemTraDinhDangEmail(sinhvien.Email)){ 
-                    throw new Error("Lỗi email. Email bị sai định dạng.");
-                } else{
+                if (await sinhvienRepositories.FindOneSinhVienByEmail(sinhvien.Email) && sinhvien.MasoSinhVien !== MaSoSinhVien) {
+                    throw new Error("Lỗi email. Email đã bi trùng.")
+                }
+                else{
                     keys.push("Email")
-                    values.push(sinhvien.Email)
+                    values.push(sinhvien.Email.trim())
                 }
             }
 
 
             // Cập nhập username (nếu có)
             if(sinhvien.UserName){
-                if (!(await sinhvienRepositories.FindOneSinhVienByUsername(sinhvien.UserName))){ 
+                const existed = await sinhvienRepositories.FindOneSinhVienByUsername(sinhvien.UserName);
+                if (existed && existed.MasoSinhVien !==MaSoSinhVien){ 
                     throw new Error("Lỗi username. Username đã bị trùng.");
                 } else {
                     keys.push("UserName")
-                    values.push(sinhvien.UserName)
+                    values.push(sinhvien.UserName.trim())
                 }
             }
 
             // Cập nhập mật khẩu (nếu có)
             if (sinhvien.Password) {
-                if (KiemTraMatKhauManh(
-                    sinhvien.Password)) { throw new Error("Mật khẩu yếu.");
-                } else {
-                    const hash = await hashpassword(sinhvien.Password);
-                    keys.push("Password")
-                    values.push(hash)
-                }
+                const hash = await hashpassword(sinhvien.Password);
+                keys.push("Password")
+                values.push(hash)
             }
 
-            if (sinhvien.SoLamDangNhapThatBai){
+            if (sinhvien.SoLamDangNhapThatBai !== undefined){
                 keys.push("SoLamDangNhapThatBai")
                 values.push(sinhvien.SoLamDangNhapThatBai)
             }
 
-            if (sinhvien.KhongChoDangNhapToi){
+            if (sinhvien.KhongChoDangNhapToi !== undefined){
                 keys.push("KhongChoDangNhapToi")
                 values.push(sinhvien.KhongChoDangNhapToi)
             }
@@ -416,7 +414,20 @@ export class SinhVienServices{
 
             await sinhvienRepositories.UpdateOneSinhVien(MaSoSinhVien, ThongtinUpdate);
             
-            return "Đã cập nhập thông tin sinh viên thành công."
+            return {
+                MasoSinhVien: checkSinhVien.MasoSinhVien,
+                HoVaTenSinhVien: checkSinhVien.HoVaTenSinhVien,
+                GioiTinhHocSinh: checkSinhVien.GioiTinhHocSinh,
+                NgaySinh: checkSinhVien.NgaySinh,
+                NoiSinhv:checkSinhVien.NoiSinh,
+                KhoaHoc: checkSinhVien.KhoaHoc,
+                ChuyenNghanh: checkSinhVien.ChuyenNghanh,
+                UserName: "...................",
+                Password: "...................",
+                Email: checkSinhVien.Email,
+                TrangThai: checkSinhVien.TrangThai,
+                VaiTro: checkSinhVien.VaiTro
+            };
             
         } catch (error: any) {
             throw new Error (`Lỗi Service/SinhVien/CapNhapThongTinMotSinhVien: ${error}`);

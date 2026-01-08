@@ -8,11 +8,14 @@ import { GiangVienServices } from "../Service/GiangVien";
 
 @Route("API/v1/DangNhap")
 @Tags("DangNhap")
+
+// Tạo ra một class chứa các function CRUD để call API và gọi xuống tầng service
 export class DangNhap extends Controller {
 
     private svservices = new SinhVienServices();
     private gvsersvice = new GiangVienServices()
 
+    // Hàm dùng để call tới chức năng login của service sau đó kiểm tra và thực thi nó
     @Post("Login/{UserName}/{Password}")
     @SuccessResponse(200, "Đăng nhập thành công")
     public async Login(@Body() body: DangNhapDto): Promise<any> {
@@ -42,6 +45,7 @@ export class DangNhap extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng login lại của service sau đó kiểm tra và thực thi nó
     @Post("LoginAgain")
     @SuccessResponse(200, "Đăng nhập lại thành công")
     public async LoginAgain(@Body body: {RefreshToken: string}): Promise <any> {
@@ -64,6 +68,7 @@ export class DangNhap extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng logout của service sau đó kiểm tra và thực thi nó
     @Post("Logout")
     @SuccessResponse(200, "Logout thành công")
     public async Logout(@Body() body: {RefreshToken: string}): Promise<any> {

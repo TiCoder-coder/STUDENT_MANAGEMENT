@@ -463,7 +463,6 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsPhanCongGiangDayController_timkiemPhanCongGiangDay: Record<string, TsoaRoute.ParameterSchema> = {
-                MaSoGiangVien: {"in":"path","name":"MaSoGiangVien","required":true,"dataType":"string"},
                 MaLopHocPhan: {"in":"path","name":"MaLopHocPhan","required":true,"dataType":"string"},
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
         };
@@ -1005,7 +1004,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        const argsGiangVienController_UpdateOneSinhVien: Record<string, TsoaRoute.ParameterSchema> = {
+        const argsGiangVienController_UpdateOneGiangVien: Record<string, TsoaRoute.ParameterSchema> = {
                 MaSoGiangVien: {"in":"path","name":"MaSoGiangVien","required":true,"dataType":"string"},
                 body: {"in":"body","name":"body","required":true,"ref":"UpdateGiangVien"},
                 req: {"in":"request","name":"req","required":true,"dataType":"object"},
@@ -1013,20 +1012,20 @@ export function RegisterRoutes(app: Router) {
         app.put('/API/v1/GiangVien/UpdateOneGiangVien/:MaSoGiangVien',
             authenticateMiddleware([{"bearerAuth":[]}]),
             ...(fetchMiddlewares<RequestHandler>(GiangVienController)),
-            ...(fetchMiddlewares<RequestHandler>(GiangVienController.prototype.UpdateOneSinhVien)),
+            ...(fetchMiddlewares<RequestHandler>(GiangVienController.prototype.UpdateOneGiangVien)),
 
-            async function GiangVienController_UpdateOneSinhVien(request: ExRequest, response: ExResponse, next: any) {
+            async function GiangVienController_UpdateOneGiangVien(request: ExRequest, response: ExResponse, next: any) {
 
             // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
             let validatedArgs: any[] = [];
             try {
-                validatedArgs = templateService.getValidatedArgs({ args: argsGiangVienController_UpdateOneSinhVien, request, response });
+                validatedArgs = templateService.getValidatedArgs({ args: argsGiangVienController_UpdateOneGiangVien, request, response });
 
                 const controller = new GiangVienController();
 
               await templateService.apiHandler({
-                methodName: 'UpdateOneSinhVien',
+                methodName: 'UpdateOneGiangVien',
                 controller,
                 response,
                 next,

@@ -1,4 +1,4 @@
-import {IsString, IsNumber, IsEnum, IsNotEmpty, Length, IsOptional, Min, IsInt} from "class-validator";
+import {IsString, IsDate, IsNumber, IsEnum, IsNotEmpty, Length, IsOptional, Min, IsInt} from "class-validator";
 import {Type} from "class-transformer";
 import {TrangThaiLopHoc} from "../../Enums/Enums";
 
@@ -18,13 +18,15 @@ export class CreateMaLopHocPhan{
     MaMonHoc: string;
 
     // Ngày bắt đầu môn học
-    @IsNotEmpty()
     @Type(() => Date)
+    @IsDate()
+    @IsNotEmpty()
     NgayBatDau: Date;
 
     // Ngày kết thúc môn học
-    @IsNotEmpty()
     @Type(() => Date)
+    @IsDate()
+    @IsNotEmpty()
     NgayKetThuc: Date;
 
     // Sô sinh viên tối thiểu của lớp
@@ -36,6 +38,8 @@ export class CreateMaLopHocPhan{
 
     // Số sinh viên tối đa của lớp
     @Type(() => Number)
+    @IsInt()
+    @Min(0)
     @IsNotEmpty()
     SoSinhVienToiDa: number;
 
@@ -47,9 +51,8 @@ export class CreateMaLopHocPhan{
     SoSinhVienHienTai: number
 
     // Trạng thái của lớp học
-    @IsString()
-    @IsNotEmpty()
     @IsEnum(TrangThaiLopHoc)
+    @IsNotEmpty()
     TrangThaiLopHoc: TrangThaiLopHoc;
 
 }

@@ -27,9 +27,9 @@ export class PhanCongGiangDayServices{
 
 
             const phanconggiangdayRepositories = new PhanCongGiangDayRepositories();
-            const checkPhanCongGiangDay = await phanconggiangdayRepositories.FindOnePhanCongGiangDay(phancong.MaSoGiangVien, phancong.MaLopHocPhan)
+            const checkPhanCongGiangDay = await phanconggiangdayRepositories.FindByMaLopHocPhan(phancong.MaLopHocPhan)
             if (checkPhanCongGiangDay) {
-                throw new Error ("Lớp này đã có giáo viên khác dạy.")
+                throw new Error (`Lớp ${phancong.MaLopHocPhan} đã được phân công cho giảng viên ${checkPhanCongGiangDay.MaSoGiangVien}.`)
             }
 
             await phanconggiangdayRepositories.CreateOnePhanCongGiangDay(phancong);
@@ -44,7 +44,7 @@ export class PhanCongGiangDayServices{
     }
 
     // Hàm dùng để tìm kiếm thông tin giảng dạy
-    async findOnePhanCongGiangDay(userRole: string, MaSoGiangVien: string, MaLopHocPhan: string){
+    async findOnePhanCongGiangDay(userRole: string, MaLopHocPhan: string){
         try {
 
             RequireGiangVienOrAdmin(userRole)
@@ -90,7 +90,8 @@ export class PhanCongGiangDayServices{
             RequireAdmin(userRole)
             const phanconggiangdayRepositories = new PhanCongGiangDayRepositories();
             const checkPhanCongGiangDay = await phanconggiangdayRepositories.FindByMaLopHocPhan(MaLopHocPhan)
-            
+            if (!checkPhanCongGiangDay) throw new Error(`Không tìm thấy phân công của lớp ${MaLopHocPhan}.`);
+
             const keys: (keyof PhanCongGiangDay)[] = [];
             const values: any[] = [];
 
@@ -108,9 +109,18 @@ export class PhanCongGiangDayServices{
             for (let i = 0; i < keys.length; i++){
                 ThongTinUpdate[keys[i]] = values[i]
             }
+
+            // Kiểm tra xem có thông tin để cập nhập hay không
+            if (Object.keys(ThongTinUpdate).length === 0) {
+                return "Không có thông tin mới để cập nhập.";
+            }
+
             
             await phanconggiangdayRepositories.UpdateOnePhanCongGiangDay(MaLopHocPhan, ThongTinUpdate)
-            return "Đã cập nhập thông tin thành công."
+            return {
+                MaSoGiangVien: phancong.MaSoGiangVien,
+                MaLopHocPhan: phancong.MaLopHocPhan,
+            }
 
         } catch (error: any) {
             throw new Error (`Lỗi Service/PhanCongGiangDay/updateOnePhanCongGiangDay: ${error}`);

@@ -25,7 +25,7 @@ export class CreateDangKihocPhan{
     MaLopHocPhan: string;                                           // FORIEGN KEY
 
     // Trạng thái đã đăng kí
-    @IsString()
+    @IsEnum(TrangThaiDangKi)
     @IsOptional()
     TrangThaiDangKi: TrangThaiDangKi = TrangThaiDangKi.DaDangKi;
 }

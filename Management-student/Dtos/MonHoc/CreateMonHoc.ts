@@ -18,9 +18,9 @@ export class CreateMonHoc{
     TenMonHoc: string;
 
     // Enum cho biết môn học có phải là môn bắt buộc hay không
+    @IsEnum(MonHocBatBuoc)
     @IsString()
     @IsNotEmpty()
-    @IsEnum(MonHocBatBuoc)
     BatBuoc: MonHocBatBuoc = MonHocBatBuoc.Co;
     
     // Sô tín chỉ của môn học
@@ -31,6 +31,7 @@ export class CreateMonHoc{
     SoTinChi: number;
     
     // Học phí của môn học
+    @Type(() => Number)
     @IsNumber()
     @IsNotEmpty()
     HocPhiMonHoc: number;

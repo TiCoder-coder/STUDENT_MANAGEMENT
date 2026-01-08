@@ -18,9 +18,9 @@ export class CreateGiangVien{
     TenGiangVien: string;
 
     // Ngày sinh của giảng viên
-    @IsNotEmpty()
-    @IsDate()
     @Type(() => Date)
+    @IsDate()
+    @IsNotEmpty()
     NgaySinh: Date;
 
     // Nơi sinh của giảng viên
@@ -29,9 +29,8 @@ export class CreateGiangVien{
     NoiSinh: string;
 
     // Giới tính của giảng viên
-    @IsString()
-    @IsNotEmpty()
     @IsEnum(GioiTinh)
+    @IsNotEmpty()
     GioiTinhGiangVien: GioiTinh;
 
     // Chuyên nghành của giảng viên
@@ -41,13 +40,11 @@ export class CreateGiangVien{
     ChuyenNghanh: string;
 
     // Trạng thái giảng dạy của giảng viên ở trường
-    @IsString()
-    @IsNotEmpty()
     @IsEnum(TrangThaiHoatDongGiangVien)
+    @IsNotEmpty()
     TrangThai: TrangThaiHoatDongGiangVien;
 
     // Vai trò của giảng viên
-    @IsString()
     @IsEnum(VaiTroNguoiDung)
     VaiTro: VaiTroNguoiDung = VaiTroNguoiDung.GiangVien;
 
@@ -58,6 +55,7 @@ export class CreateGiangVien{
     
     // Username cho tên tài khoản của giảng viên
     @IsString()
+    @Length(3, 100)
     @IsNotEmpty()
     UserName: string;
 
@@ -68,6 +66,7 @@ export class CreateGiangVien{
     Password: string;
 
     // Số lần đăng nhập thất bại --- thuộc tính này sẽ tự cập nhập
+    @Type(() => Number)
     @IsNumber()
     @IsOptional()
     SoLamDangNhapThatBai?: number = 0;

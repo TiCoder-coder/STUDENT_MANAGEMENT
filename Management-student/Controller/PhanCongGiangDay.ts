@@ -7,9 +7,12 @@ import { UpdatePhanCongGiangDay } from "../Dtos/PhanCongGiangDay/UpdatePhanCongG
 
 @Route("API/v1/PhanCongGiangDay")
 @Tags("PhanCongGiangDay")
+
+// Tạo ra một class chứa các function CRUD để call API và gọi xuống tầng service
 export class PhanCongGiangDayController extends Controller {
     private services = new PhanCongGiangDayServices()
 
+    // Hàm dùng để call tới chức năng phân công giảng dạy của service sau đó kiểm tra và thực thi nó
     @Post("CreatePhanCongGiangDay")
     @Security("bearerAuth")
     @SuccessResponse(201, "Tạo thành công")
@@ -31,13 +34,14 @@ export class PhanCongGiangDayController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng tìm kiếm thông tin phân công giảng dạy của service sau đó kiểm tra và thực thi nó
     @Get("TimkiemPhanCongGiangDay/{MaSoGiangVien}/{MaLopHocPhan}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Tìm kiếm thành công")
-    public async timkiemPhanCongGiangDay(@Path() MaSoGiangVien: string, @Path() MaLopHocPhan: string, @Request() req: ExRequest) {
+    public async timkiemPhanCongGiangDay(@Path() MaLopHocPhan: string, @Request() req: any) {
         try {
             const userRole = (req as any).user?.role;
-            const phanconggiangday = await this.services.findOnePhanCongGiangDay(userRole, MaSoGiangVien, MaLopHocPhan)
+            const phanconggiangday = await this.services.findOnePhanCongGiangDay(userRole, MaLopHocPhan)
             return {
                 message: "Tìm kiếm thông tin phân công giảng dạy thành công",
                 data: phanconggiangday
@@ -47,6 +51,7 @@ export class PhanCongGiangDayController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng liệt kê tất cả thông tin phân công giảng dạy của service sau đó kiểm tra và thực thi nó
     @Get("LietKePhanCongHocPhan")
     @Security("bearerAuth")
     @SuccessResponse(200, "Liệt kê thành công")
@@ -63,6 +68,7 @@ export class PhanCongGiangDayController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng cập nhập thông tin phân công giảng dạy của service sau đó kiểm tra và thực thi nó
     @Put("CapNhapLopHocPhan/{MaLopHocPhan}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Cập nhập thành công")
@@ -84,6 +90,7 @@ export class PhanCongGiangDayController extends Controller {
         }
     }
 
+    // Hàm dùng để call tới chức năng xoá thông tin phân công giảng dạy của service sau đó kiểm tra và thực thi nó
     @Delete("XoaLopHocPhan/{MaSoGiangVien}/{MaLopHocPhan}")
     @Security("bearerAuth")
     @SuccessResponse(200, "Xoá thành công")
