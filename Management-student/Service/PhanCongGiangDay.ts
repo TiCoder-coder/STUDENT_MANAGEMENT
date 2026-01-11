@@ -1,3 +1,4 @@
+import { Transaction } from "../ConnectDatabase/ConnectDatabase";
 import { CreatePhanCongGiangDay } from "../Dtos/PhanCongGiangDay/CreatePhanCongGiangDay";
 import { UpdatePhanCongGiangDay } from "../Dtos/PhanCongGiangDay/UpdatePhanCongGiangDay";
 import { RequireAdmin, RequireGiangVienOrAdmin } from "../Middleware/PhanQuyen";
@@ -10,7 +11,7 @@ export class PhanCongGiangDayServices{
 
     // Hàm dùng để insert thông tin giảng dạy xuống database
     async createOnePhanCongGiangDay(userRole: string, phancong: CreatePhanCongGiangDay ){
-        try {
+        return Transaction(async (session) => {
 
             RequireAdmin(userRole);
             
@@ -32,15 +33,13 @@ export class PhanCongGiangDayServices{
                 throw new Error (`Lớp ${phancong.MaLopHocPhan} đã được phân công cho giảng viên ${checkPhanCongGiangDay.MaSoGiangVien}.`);
             }
 
-            await phanconggiangdayRepositories.CreateOnePhanCongGiangDay(phancong);
+            await phanconggiangdayRepositories.CreateOnePhanCongGiangDay(phancong, session);
             return {
                 MaSoGiangVien: phancong.MaSoGiangVien,
                 MaLopHocPhan: phancong.MaLopHocPhan,
             }
 
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/PhanCongGiangDay/createOnePhanCongGiangDay: ${error}`);
-        }
+        })
     }
 
     // Hàm dùng để tìm kiếm thông tin giảng dạy
@@ -84,7 +83,7 @@ export class PhanCongGiangDayServices{
     
     // Hàm dùng để cập nhập thông tin phân công giảng dạy
     async updateOnePhanCongGiangDay(userRole: string, MaLopHocPhan: string, phancong: UpdatePhanCongGiangDay ){
-        try {
+        return Transaction(async (session) => {
 
 
             RequireAdmin(userRole);
@@ -116,20 +115,18 @@ export class PhanCongGiangDayServices{
             }
 
             
-            await phanconggiangdayRepositories.UpdateOnePhanCongGiangDay(MaLopHocPhan, ThongTinUpdate)
+            await phanconggiangdayRepositories.UpdateOnePhanCongGiangDay(MaLopHocPhan, ThongTinUpdate, session)
             return {
                 MaSoGiangVien: phancong.MaSoGiangVien,
                 MaLopHocPhan: phancong.MaLopHocPhan,
             }
 
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/PhanCongGiangDay/updateOnePhanCongGiangDay: ${error}`);
-        }
+        })
     }
 
     // Hàm dùng để xoá thông tin phân công giảng dạy
     async deleteOnePhanCongGiangDay(userRole: string, MaSoGiangVien: string, MaLopHocPhan: string){
-        try {
+        return Transaction(async (session) => {
 
             RequireAdmin(userRole)
 
@@ -140,11 +137,9 @@ export class PhanCongGiangDayServices{
                 return false;
             }
             
-            await phanconggiangdayRepositories.DeleteOnePhanCongGiangDay(MaSoGiangVien, MaLopHocPhan);
+            await phanconggiangdayRepositories.DeleteOnePhanCongGiangDay(MaSoGiangVien, MaLopHocPhan, session);
             return "Đã xoá thông tin thành công.";
             
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/PhanCongGiangDay/DeleteOnePhanCongGiangDay: ${error}`);
-        }
+        })
     }
 }

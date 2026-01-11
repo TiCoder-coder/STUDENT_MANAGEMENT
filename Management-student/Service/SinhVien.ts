@@ -6,6 +6,7 @@ import { SinhVien, SinhVienRepositories } from "../Repositories/SinhVien";
 import bcrypt from "bcrypt";
 import "dotenv/config"
 import { TaoAcessToken, TaoRefreshToken, TokenPayload } from "../Middleware/XuLyToken";
+import { Transaction } from "../ConnectDatabase/ConnectDatabase";
 
 const PASSWORD_PEPPER=process.env.PASSWORD_PEPPER as string;
 const SOLANDANGNHAPTHATBAITOIDA = Number(process.env.SOLANDANGNHAPTHATBAITOIDA);
@@ -126,7 +127,7 @@ export class SinhVienServices{
 
     // Hàm dùng để insert thông tin của một sinh viên xuống database (nếu đúng )
     async createSinhVien(UserRole: string, sinhvien: CreateSinhVien) {
-        try {
+        return Transaction(async (session) => {
 
             RequireAdmin(UserRole);         // Phải là admin mới có quyền thêm thông tin sinh viên xuống database
 
@@ -186,7 +187,7 @@ export class SinhVienServices{
             }
 
             // Inssert thông tin xuống database
-            const insert = await sinhvienRepositories.CreateOneSinhVien(newsinhvien);
+            const insert = await sinhvienRepositories.CreateOneSinhVien(newsinhvien, session);
 
             if (insert){
                 console.log("Đã cập nhập thông tin sinh viên xuống database thành công.")
@@ -207,9 +208,7 @@ export class SinhVienServices{
             } else{
                 throw new Error("Không thể insert thông tin của sinhh viên xuống database.");
             }
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/SinhVien/createSinhVien: ${error}`);
-        }
+        })
     }
 
     // Hàm dùng để tìm kiếm thông tin của một sinh viên theo mã số 
@@ -274,7 +273,7 @@ export class SinhVienServices{
 
     // Hàm dùng cập nhập thông tin của một sinh viên
     async CapNhapThongTinMotSinhVien(userRole: string, MaSoSinhVien: string, sinhvien: UpdateSinhVien){
-        try{
+        return Transaction(async (session) => {
 
             RequireAdmin(userRole);         // Phải là admin mới có quyền thêm thông tin sinh viên xuống database
             const sinhvienRepositories = new SinhVienRepositories();
@@ -413,7 +412,7 @@ export class SinhVienServices{
                 return "Không có thông tin nào mới để cập nhập.";
             }
 
-            await sinhvienRepositories.UpdateOneSinhVien(MaSoSinhVien, ThongtinUpdate);
+            await sinhvienRepositories.UpdateOneSinhVien(MaSoSinhVien, ThongtinUpdate, session);
             
             return {
                 MasoSinhVien: checkSinhVien.MasoSinhVien,
@@ -430,14 +429,12 @@ export class SinhVienServices{
                 VaiTro: checkSinhVien.VaiTro
             };
             
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/SinhVien/CapNhapThongTinMotSinhVien: ${error}`);
-        }
+        })
     }
 
     // Hàm dùng để xoá thông tin của một sinh viên
     async XoaThongTinMotSinhVien(userRole: string, MaSoSinhVien: string){
-        try {
+        return Transaction(async (session) => {
 
             RequireAdmin(userRole);         // Phải là admin mới có quyền thêm thông tin sinh viên xuống database
             
@@ -447,11 +444,9 @@ export class SinhVienServices{
                 throw new Error("Sinh viên không tồn tại");
             }
             
-            await sinhvienRepositories.DeleteOneSinhVien(MaSoSinhVien);
+            await sinhvienRepositories.DeleteOneSinhVien(MaSoSinhVien, session);
             return "Đã xoá sinh viên thành công."
-        } catch (error) {
-            throw new Error (`Lỗi Service/SinhVien/XoaThongTinMotSinhVien: ${error}`);
-        }
+        })
     }
     
     // Hàm dùng để khoá tài khoản khi sinh viên đăng nhập sai quá nhiều lần

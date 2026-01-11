@@ -1,7 +1,7 @@
 import { HinhThucHoc, MonHocBatBuoc } from "../Enums/Enums";
 import { BaseConnection } from "./BaseConnection";
 import { getCollection } from "../ConnectDatabase/ConnectDatabase";
-
+import { ClientSession } from "mongodb";
 
 export interface MonHoc{
 
@@ -22,7 +22,7 @@ export class MonHocRepositories extends BaseConnection<MonHoc>{
     constructor() { super(getCollection<MonHoc>("MonHoc")); }
 
     // Hàm dùng để insert thông tin của một môn học xuống database
-    CreateOneMonHoc(monhoc: MonHoc){ return this.CreateOne(monhoc); }
+    CreateOneMonHoc(monhoc: MonHoc, session?:ClientSession){ return this.CreateOne(monhoc, session ? {session}: undefined); }
 
     // Hàm dùng để tìm kiếm thông tin của một môn học
     FindOneMonHoc(MaMonHoc: string) { return this.FindOne({MaMonHoc}); }
@@ -34,9 +34,9 @@ export class MonHocRepositories extends BaseConnection<MonHoc>{
     FindAllMonHoc() { return this.FindAll(); }
 
     // Hàm dùng để cập nhập thông tin của một môn học 
-    UpdateOneMonHoc(MaMonHoc: string, update: Partial<MonHoc>){ return this.UpdateOne({MaMonHoc}, {$set: update}); }
+    UpdateOneMonHoc(MaMonHoc: string, update: Partial<MonHoc>, session?:ClientSession){ return this.UpdateOne({MaMonHoc}, {$set: update}, session ? {session}: undefined); }
 
     // Hàm dùng để xoá thông tin của một môn học 
-    DeleteOneMonHoc(MaMonHoc: string) {return this.DeleteOne({MaMonHoc}); }
+    DeleteOneMonHoc(MaMonHoc: string, session?:ClientSession) {return this.DeleteOne({MaMonHoc}, session ? {session}: undefined); }
     
 }

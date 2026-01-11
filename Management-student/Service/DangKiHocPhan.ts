@@ -6,6 +6,7 @@ import { MonHocRepositories } from "../Repositories/MonHoc";
 import { CreateDangKihocPhan } from "../Dtos/DangKiHocPhan/CreaateDangKiHocPhan";
 import "dotenv/config"
 import { TrangThaiDangKi } from "../Enums/Enums";
+import { Transaction } from "../ConnectDatabase/ConnectDatabase";
 
 const SOTINCHIMAX = Number(process.env.SOTINCHIMAX);
 const SOMONHOCMAX = Number(process.env.SOMONHOCMAX);
@@ -15,7 +16,7 @@ export class DangKihocPhanServices{
 
     // Hàm dùng để đăng kí học phần cho sinh viên
     async createOneDangKiHocPhan(userRole: string, dangkihocphan: CreateDangKihocPhan){
-        try {
+        return Transaction(async (session) => {
             RequireSinhVienOrAdmin(userRole);// Chỉ có admin và sinh viên mới được sử dụng hàm này 
 
             // Kiểm tra mã số sinh viên có tồn tại không
@@ -73,8 +74,8 @@ export class DangKihocPhanServices{
                 TrangThaiDangKi: TrangThaiDangKi.DaDangKi,
             }
             // Sau khi kiểm tra thông tin ok hết ròi thì tiến hành insert nó xuống database
-            await dangkihocphanRepositories.CreateOneDangKiHocPhan(datadangkihocphan);
-            await lophocphanRepositories.UpdateOneLopHocPhan(datadangkihocphan.MaLopHocPhan, {SoSinhVienHienTai: checkLopHocPhan.SoSinhVienHienTai + 1})
+            await dangkihocphanRepositories.CreateOneDangKiHocPhan(datadangkihocphan, session);
+            await lophocphanRepositories.UpdateOneLopHocPhan(datadangkihocphan.MaLopHocPhan, {SoSinhVienHienTai: checkLopHocPhan.SoSinhVienHienTai + 1}, session)
             
             // Trả về thông tin để người dùng biết đăng kí môn học đã thành công
             console.log("Đăng kí học phần thành công.")
@@ -87,9 +88,7 @@ export class DangKihocPhanServices{
                 TrangThaiDangKi: dangkihocphan.TrangThaiDangKi,
             }
         
-        }catch (error: any) {
-            throw new Error (`Lỗi Service/DangKiHocPhan/createDangKiHocPhan: ${error}`);
-    }}
+        })}
 
     // Hàm dùng để tìm kiếm một lớp học phần theo mã số sinh viên và mã môn học
     async TimKiemLopHocPhanTheoMSSVvaMHH(MasoSinhVien: string, MaMonHoc: string): Promise <any> {
@@ -113,7 +112,7 @@ export class DangKihocPhanServices{
     // Hàm dùng để cập nhập thông tin sau khi đăng kí học phần (đổi lớp, ...)
     async DoiLopHocPhan(userRole: string, MasoSinhVien: string, MaMonHoc: string, MaLopHocPhan: string){
 
-        try {
+        return Transaction(async (session) => {
 
             RequireSinhVienOrAdmin(userRole)    // Chỉ có chính sinh viên đó hoặc admin mới được thay đổi
 
@@ -146,14 +145,14 @@ export class DangKihocPhanServices{
             if (!dangKiCu) {throw new Error ("Sinh viên chưa đăng kí môn học này. Không thể đổi."); }
             
             // Sau khi đã kiểm tra ok hết thì tiến hành cập nhập thông tin
-            await dangkihocphanRepositories.UpdateOneDangKiHocPhan(MasoSinhVien, MaMonHoc, MaLopHocPhan);
+            await dangkihocphanRepositories.UpdateOneDangKiHocPhan(MasoSinhVien, MaMonHoc, MaLopHocPhan, session);
 
             // Cập nhập sĩ số cho lớp cũ và lớp mới: lớp cũ -1, lớp mới +1
             const LopCu = await lophocphanRepositories.FindOneLopHocPhan(dangKiCu.MaLopHocPhan);
             if (LopCu) {
-                await lophocphanRepositories.UpdateOneLopHocPhan(LopCu.MaLopHocPhan, {SoSinhVienHienTai: Math.max(0, LopCu.SoSinhVienHienTai - 1)});
+                await lophocphanRepositories.UpdateOneLopHocPhan(LopCu.MaLopHocPhan, {SoSinhVienHienTai: Math.max(0, LopCu.SoSinhVienHienTai - 1)}, session);
             }
-            await lophocphanRepositories.UpdateOneLopHocPhan(MaLopHocPhan, {SoSinhVienHienTai: checkLopHocPhan.SoSinhVienHienTai + 1});
+            await lophocphanRepositories.UpdateOneLopHocPhan(MaLopHocPhan, {SoSinhVienHienTai: checkLopHocPhan.SoSinhVienHienTai + 1}, session);
 
             return {
                 MaSoSinhVien: MasoSinhVien,
@@ -161,14 +160,12 @@ export class DangKihocPhanServices{
                 MaLopHocPhan: MaLopHocPhan
             }
             
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/DangKiHocPhan/DoiLopHocPhan: ${error}`);
-        }
+        })
     }
 
     // Hàm dùng để huỷ đăng kí môn học phần
     async HuyDangKiMotMonHoc(userRole: string, MasoSinhVien: string, MaMonHoc: string) {
-        try {
+        return Transaction(async (session) => {
 
             RequireSinhVienOrAdmin(userRole);   // Chỉ có chính sinh viên đó hoặc admin mới được thuỷ đăng kí
 
@@ -186,13 +183,11 @@ export class DangKihocPhanServices{
             const lopHocPhanRepositories = new LopHocPhanRepositories();
             const lophocphan = await lopHocPhanRepositories.FindOneLopHocPhan(dangki.MaLopHocPhan);
             if (lophocphan) {
-                await lopHocPhanRepositories.UpdateOneLopHocPhan(lophocphan.MaLopHocPhan, {SoSinhVienHienTai: Math.max(0, lophocphan.SoSinhVienHienTai - 1)});
+                await lopHocPhanRepositories.UpdateOneLopHocPhan(lophocphan.MaLopHocPhan, {SoSinhVienHienTai: Math.max(0, lophocphan.SoSinhVienHienTai - 1)}, session);
             }
 
             return "Đã huỷ đăng kí học phần thành công";
             
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/DangKiHocPhan/HuyDangKiMotMonHoc: ${error}`);
-        }
+        })
     }
 }

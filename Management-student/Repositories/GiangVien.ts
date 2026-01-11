@@ -1,6 +1,7 @@
 import { BaseConnection } from "./BaseConnection";
 import { getCollection } from "../ConnectDatabase/ConnectDatabase";
 import { GioiTinh, TrangThaiHoatDong, TrangThaiHoatDongGiangVien, VaiTroNguoiDung } from "../Enums/Enums";
+import { ClientSession } from "mongodb";
 
 export interface GiangVien{
 
@@ -28,7 +29,7 @@ export class GiangVienRepositories extends BaseConnection<GiangVien>{
     constructor(){ super(getCollection<GiangVien>("GiangVien")); }
 
     // Hàm dùng để thêm thông tin của một giảng viên vào database
-    createOneGiangVien(giangvien: GiangVien){ return this.CreateOne(giangvien); }
+    createOneGiangVien(giangvien: GiangVien, session?:ClientSession){ return this.CreateOne(giangvien, session ? {session}: undefined); }
 
     // Hàm dùng để tìm kiếm thông tin của một giàng viên
     findoneGiangVien(MaSoGiangVien: string){ return this.FindOne({MaSoGiangVien}); }
@@ -43,12 +44,12 @@ export class GiangVienRepositories extends BaseConnection<GiangVien>{
     FindOneGiangVienByEmail(Email: string) {return this.FindOne({Email});}
 
     // Hàm dùng để cập nhập thông tin của một giảng viên
-    updateoneGiangVien(MaSoGiangVien: string, update: Partial<GiangVien>){ return this.UpdateOne({MaSoGiangVien}, {$set: update}); }
+    updateoneGiangVien(MaSoGiangVien: string, update: Partial<GiangVien>, session?:ClientSession){ return this.UpdateOne({MaSoGiangVien}, {$set: update}, session ? {session}: undefined); }
 
     // Hàm dùng để cập nhập thông tin của giảng viên bằng username của giảng viên
-    updateOneGiangVienByUserName(UserName: string, update: Partial<GiangVien>){
-        return this.UpdateOne({UserName}, {$set: update});
+    updateOneGiangVienByUserName(UserName: string, update: Partial<GiangVien>, session?:ClientSession){
+        return this.UpdateOne({UserName}, {$set: update}, session ? {session}: undefined);
     }
     // Hàm dùng để xoá thông tin của một giảng viên
-    deleteOneGiangVien(MaSoGiangVien: string) {return this.DeleteOne({MaSoGiangVien}); }
+    deleteOneGiangVien(MaSoGiangVien: string, session?:ClientSession) {return this.DeleteOne({MaSoGiangVien}, session ? {session}: undefined); }
 }

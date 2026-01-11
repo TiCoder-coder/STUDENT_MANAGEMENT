@@ -1,3 +1,4 @@
+import { Transaction } from "../ConnectDatabase/ConnectDatabase";
 import { CreateMaLopHocPhan } from "../Dtos/LopHocPhan/CreateLopHocPhan";
 import { UpdateMaLopHocPhan } from "../Dtos/LopHocPhan/UpdateLopHocPhan";
 import { TrangThaiLopHoc } from "../Enums/Enums";
@@ -74,7 +75,7 @@ export class LopHocPhanServices{
 
     // Hàm dùng để insert thông tin của một lớp học phần xuống database
     async createOneLopHocPhan(userRole: string, lophocphan: CreateMaLopHocPhan){
-        try {
+        return Transaction(async (session) =>  {
 
             RequireAdmin(userRole);          // Chỉ có admin mới được quyền tạo ra các lớp học phần
 
@@ -110,7 +111,7 @@ export class LopHocPhanServices{
             }
 
             // Tạo ra thông tin của lớp học phần
-            await lophocphanRepositories.CreateOneLopHocPhan(lophocphan);
+            await lophocphanRepositories.CreateOneLopHocPhan(lophocphan, session);
 
             // Trả về thông tin sau khi đã tạo
             return {
@@ -124,9 +125,7 @@ export class LopHocPhanServices{
                 TrangThaiLopHoc: lophocphan.TrangThaiLopHoc
             }
 
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/LopHocPhan/createOneLopHocPhan: ${error}`);
-        }
+        })
     }
 
     // Hàm dùng để tìm kiếm thông tin của một lớp học phần
@@ -193,7 +192,7 @@ export class LopHocPhanServices{
 
     // Hàm dùng để cập nhập thông tin của một lớp học phần
     async UpdateOneMonHoc(UserRole: string, MaLopHocPhan: string, lophocphan: UpdateMaLopHocPhan){
-        try{
+        return Transaction(async (session) => {
 
             RequireAdmin(UserRole);          // Chỉ có admin mới đưọc cập nhập thông tin của lớp học phần
             
@@ -269,7 +268,7 @@ export class LopHocPhanServices{
             }
 
             // Tiến hành cập nhập
-            await lophocphanRepositories.UpdateOneLopHocPhan(MaLopHocPhan, ThongtinUpdate);
+            await lophocphanRepositories.UpdateOneLopHocPhan(MaLopHocPhan, ThongtinUpdate, session);
             return {
                 MaLopHocPhan: checkLopHocPhan.MaLopHocPhan,
                 MaMonHocv: checkLopHocPhan.MaMonHoc,
@@ -280,14 +279,12 @@ export class LopHocPhanServices{
                 SoSinhVienToiDa: checkLopHocPhan.SoSinhVienToiDa,
                 TrangThaiLopHoc: checkLopHocPhan.TrangThaiLopHoc
             }
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/LopHocPhan/UpdateOneMonHoc: ${error}`);
-        }
+        })
     }
 
     // Hàm dùng để xoá thông tin của một lớp học phần
     async DeleteOneLopHocPhan(UserRole: string, MaLopHocPhan: string){
-        try {
+        return Transaction(async (session) => {
 
             RequireAdmin(UserRole);     // Chỉ có admin mới được xoá thông tin của lớp học phần đó 
             
@@ -297,13 +294,11 @@ export class LopHocPhanServices{
             if (!checkLopHocPhan) { 
                 throw new Error("Lớp học phần đã tồn tại. Không được tạo mới."); 
             } else {
-                await lophocphanRepositories.DeleteOneHocPhan(MaLopHocPhan);
+                await lophocphanRepositories.DeleteOneHocPhan(MaLopHocPhan, session);
                 return "Đã xoá lớp học phần thành công."
             }
 
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/LopHocPhan/DeleteOneLopHocPhan: ${error}`);
-        }
+        })
 
     }
 }

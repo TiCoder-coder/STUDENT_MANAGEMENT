@@ -1,3 +1,4 @@
+import { Transaction } from "../ConnectDatabase/ConnectDatabase";
 import { CreateGiangVien } from "../Dtos/GiangVien/CreateGiangVien";
 import { UpdateGiangVien } from "../Dtos/GiangVien/UpdateGiangVien";
 import { GioiTinh, TrangThaiHoatDongGiangVien, VaiTroNguoiDung } from "../Enums/Enums";
@@ -15,7 +16,7 @@ export class GiangVienServices{
 
     // Hàm dùng để insert thông tin của một giảng viên xuống database (nếu đúng )
     async createGiangVien(UserRole: string, giangvien: CreateGiangVien){
-        try {
+        return Transaction(async (session) => {
 
             RequireAdmin(UserRole);         // Phải là admin mới có quyền thêm thông tin giảng viên xuống database
 
@@ -70,7 +71,7 @@ export class GiangVienServices{
             }
 
             // Inssert thông tin xuống database
-            const insert = await giangvienRepositories.createOneGiangVien(newgiangvien);
+            const insert = await giangvienRepositories.createOneGiangVien(newgiangvien, session);
 
             if (insert){
                 console.log("Đã cập nhập thông tin giảng viên xuống database thành công.")
@@ -90,9 +91,7 @@ export class GiangVienServices{
             } else{
                 throw new Error("Không thể insert thông tin của sinhh viên xuống database.");
             }
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/GiangVien/createGiangVien: ${error}`);
-        }
+        })
     }
 
     // Hàm dùng để tìm kiếm thông tin của một giảng viên theo mã số 
@@ -160,7 +159,7 @@ export class GiangVienServices{
 
     // Hàm dùng cập nhập thông tin của một giảng viên
     async CapNhapThongTinMotGiangVien(userRole: string, MaSoGiangVien: string, giangvien: UpdateGiangVien){
-        try{
+        return Transaction(async (session) =>  {
             RequireAdmin(userRole);         // Phải là admin mới có quyền thêm thông tin giảng viên xuống database
             const giangvienRepositories = new GiangVienRepositories();
             const checkGiangVien = await giangvienRepositories.findoneGiangVien(MaSoGiangVien);
@@ -292,7 +291,7 @@ export class GiangVienServices{
             }
 
             // Update
-            await giangvienRepositories.updateoneGiangVien(MaSoGiangVien, ThongtinUpdate);
+            await giangvienRepositories.updateoneGiangVien(MaSoGiangVien, ThongtinUpdate, session);
             return {
                 message: "Đã cập nhập thông tin giảng viên thành công.",
                 data: {
@@ -310,14 +309,12 @@ export class GiangVienServices{
                 }
             }
             
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/GiangVien/CapNhapThongTinMotGiangVien: ${error}`);
-        }
+        })
     }
 
     // Hàm dùng để xoá thông tin của một giảng viên
     async XoaThongTinMotGiangVien(userRole: string, MaSoGiangVien: string){
-        try {
+        return Transaction(async (session) => {
             RequireAdmin(userRole);         // Phải là admin mới có quyền thêm thông tin giảng viên xuống database
             const giangvienRepositories = new GiangVienRepositories();
             
@@ -328,12 +325,10 @@ export class GiangVienServices{
             }
             
             // Nếu có thì thực thi xoá thông tin
-            await giangvienRepositories.deleteOneGiangVien(MaSoGiangVien);
+            await giangvienRepositories.deleteOneGiangVien(MaSoGiangVien, session);
             return "Đã xoá giảng viên thành công.";
 
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/GiangVien/XoaThongTinMotGiangVien: ${error}`);
-        }
+        })
     }
     
     // Hàm dùng để khoá không cho giảng viên đăng nhập nữa -- khoá trong một khoảng thời gian (nếu đăng nhập sai quá nhiều)
@@ -358,7 +353,8 @@ export class GiangVienServices{
             // Cập nhập thông tin xuống database
             await giangVienRepositories.updateOneGiangVienByUserName( UserName, {
                 SoLamDangNhapThatBai,
-                KhongChoDangNhapToi: KhoaToi
+                KhongChoDangNhapToi: KhoaToi,
+                
             })
 
         } catch (error: any) {

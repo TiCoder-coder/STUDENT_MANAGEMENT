@@ -1,3 +1,4 @@
+import { Transaction } from "../ConnectDatabase/ConnectDatabase";
 import { CreateMonHoc } from "../Dtos/MonHoc/CreateMonHoc";
 import { UpdateMonHoc } from "../Dtos/MonHoc/UpdateMonHoc";
 import { HinhThucHoc, MonHocBatBuoc } from "../Enums/Enums";
@@ -10,7 +11,7 @@ export class MonHocServices{
 
     // Hàm dùng để insert thông tin của một sinh viên xuống database
     async createMonHoc(UserRole: string, monhoc: CreateMonHoc){
-        try {
+        return Transaction(async (session) => {
 
             RequireAdmin(UserRole);              // Chỉ có admin mới được insert thông tin xuống database
             
@@ -45,7 +46,7 @@ export class MonHocServices{
 
             // Nếu các thông tin đã chuẩn thì tiến hành thực thi vào database
             monhoc.TenMonHoc = ChuanHoaHoTen(monhoc.TenMonHoc);
-            await monhocRepositories.CreateOneMonHoc(monhoc);
+            await monhocRepositories.CreateOneMonHoc(monhoc, session);
             return {
                     MaMonHoc: monhoc.MaMonHoc,
                     TenMonHoc: monhoc.TenMonHoc,
@@ -56,9 +57,7 @@ export class MonHocServices{
                     // MaLopHocPhan: monhoc.MaLopHocPhan,
                 }
 
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/MonHoc/createMonHoc: ${error}`);
-        }
+        })
     }
 
     // Hàm dùng để tìm kiếm thông tin một môn học
@@ -112,7 +111,7 @@ export class MonHocServices{
 
     // Hàm dùng để cập nhập thông tin cho một môn học 
     async UpdateOneMonHoc(UserRole: string, MaMonHoc: string, update: UpdateMonHoc){
-        try{
+        return Transaction(async (session) => {
 
             RequireAdmin(UserRole);
             
@@ -187,7 +186,7 @@ export class MonHocServices{
                 return "Không có thông tin để cập nhập.";
             }
 
-            await monhocRepositories.UpdateOneMonHoc(MaMonHoc, ThongtinUpdate);
+            await monhocRepositories.UpdateOneMonHoc(MaMonHoc, ThongtinUpdate, session);
             return {
                 MaMonHoc: update.MaMonHoc,
                 TenMonHoc: update.TenMonHoc,
@@ -197,14 +196,12 @@ export class MonHocServices{
                 HocPhiMonHoc: update.HocPhiMonHoc
                 // MaLopHocPhan: update.MaLopHocPhan
             }
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/MonHoc/UpdateOneMonHoc: ${error}`);
-        }
+        })
     }
 
     // Hàm dùng để xoá thông tin của một môn học 
     async DeleteOneMonHoc(UserRole: string, MaMonHoc: string){
-        try {
+        return Transaction(async (session) => {
 
             RequireAdmin(UserRole);
 
@@ -213,13 +210,11 @@ export class MonHocServices{
             if (!checkMonHoc){
                 throw new Error( "Không tồn tại thông tin môn học để delete."); 
             } else {
-                await monhocRepositories.DeleteOneMonHoc(MaMonHoc);
+                await monhocRepositories.DeleteOneMonHoc(MaMonHoc, session);
                 return "Đã xoá môn học thành công.";
             }
             
-        } catch (error: any) {
-            throw new Error (`Lỗi Service/MonHoc/DeleteOneMonHoc: ${error}`);
-        }
+        })
 
     }
 }

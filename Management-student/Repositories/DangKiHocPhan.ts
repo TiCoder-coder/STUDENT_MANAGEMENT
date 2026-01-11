@@ -1,7 +1,7 @@
 import { getCollection } from "../ConnectDatabase/ConnectDatabase";
 import { TrangThaiDangKi } from "../Enums/Enums";
 import { BaseConnection } from "./BaseConnection";
-
+import { ClientSession } from "mongodb";
 
 export interface DangKiHocPhan{
 
@@ -21,7 +21,7 @@ export class DangKiHocPhanRepositories extends BaseConnection<DangKiHocPhan> {
     constructor() { super(getCollection<DangKiHocPhan>("DangKiHocPhan")); }
 
     // Hàm dùng để đăng kí học phần 
-    CreateOneDangKiHocPhan(dangkihocphan: DangKiHocPhan){ return this.CreateOne(dangkihocphan); }
+    CreateOneDangKiHocPhan(dangkihocphan: DangKiHocPhan, session?:ClientSession){ return this.CreateOne(dangkihocphan, session ? {session}: undefined); }
 
     // Hàm dùng để tìm kiếm thông tin đăng kí học phần bằng mã số sinh viên
     async FindOneMonHocByMasoSinhVien(MasoSinhVien: string, MaMonHoc: string){
@@ -42,16 +42,16 @@ export class DangKiHocPhanRepositories extends BaseConnection<DangKiHocPhan> {
     }
     
     // Hàm dùng để cập nhập số tín chỉ trong quá trình đăng kí học phần
-    UpdateSoTinChi(MasoSinhVien: string, SoTinChiSauKhiDangDangKiMon: number) { 
+    UpdateSoTinChi(MasoSinhVien: string, SoTinChiSauKhiDangDangKiMon: number, session?:ClientSession) { 
         return this.UpdateOne({MasoSinhVien}, {$set: {SoTinChiDaDangKi: SoTinChiSauKhiDangDangKiMon}})
     }
     
     // Hàm dùng để update thông tin đăng kí học phần
-    UpdateOneDangKiHocPhan(MasoSinhVien: string, MaMonHoc: string, MaLopHocPhan: string){
-        return this.UpdateOne({MasoSinhVien, MaMonHoc}, {$set: {MaLopHocPhan}});
+    UpdateOneDangKiHocPhan(MasoSinhVien: string, MaMonHoc: string, MaLopHocPhan: string, session?:ClientSession){
+        return this.UpdateOne({MasoSinhVien, MaMonHoc}, {$set: {MaLopHocPhan}}, session ? {session}: undefined);
     }
     
     // Hàm dùng để huỷ học phàn đã đăng kí
-    DeleteOneDangKiHocPhan(MasoSinhVien: string, MaMonHoc: string) {return this.DeleteOne({MasoSinhVien, MaMonHoc}); }
+    DeleteOneDangKiHocPhan(MasoSinhVien: string, MaMonHoc: string, session?:ClientSession) {return this.DeleteOne({MasoSinhVien, MaMonHoc}, session ? {session}: undefined); }
     
 }

@@ -2,6 +2,7 @@ import { BaseConnection } from "./BaseConnection";
 import { GioiTinh, TrangThaiHoatDong, VaiTroNguoiDung } from "../Enums/Enums";
 import { getCollection } from "../ConnectDatabase/ConnectDatabase";
 import "dotenv/config"
+import { ClientSession } from "mongodb";
 
 const TAIKHOANKHOATRONGKHOANG = Number(process.env.TAIKHOANKHOATRONGKHOANG);
 
@@ -36,7 +37,7 @@ export class SinhVienRepositories extends BaseConnection<SinhVien> {
     constructor(){ super(getCollection<SinhVien>("SinhVien")); }
 
     // Hàm dùng để tạo ra một sinh Viên
-    CreateOneSinhVien(sinhvien: SinhVien){ return this.CreateOne(sinhvien); }
+    CreateOneSinhVien(sinhvien: SinhVien, session?:ClientSession){ return this.CreateOne(sinhvien, session ? {session}: undefined); }
 
     // Hàm dùng để tìm kiếm một sinh viên theo mã số sinh viên
     FindOneSinhVien(MasoSinhVien: string){ return this.FindOne({MasoSinhVien}); }
@@ -51,16 +52,16 @@ export class SinhVienRepositories extends BaseConnection<SinhVien> {
     FindOneSinhVienByEmail(Email: string) {return this.FindOne({Email});}
 
     // Hàm dùng để cập nhập thông tin của một sinh viên 
-    UpdateOneSinhVien(MasoSinhVien: string, update: Partial<SinhVien>){ 
-        return this.UpdateOne({MasoSinhVien},{ $set: update}); 
+    UpdateOneSinhVien(MasoSinhVien: string, update: Partial<SinhVien>, session?:ClientSession){ 
+        return this.UpdateOne({MasoSinhVien},{ $set: update}, session ? {session}: undefined); 
     }
 
     // Hàm dùng để cập nhập thông tin của sinh viên bằng username 
-    UpdateOneSinhVienByUsername(UserName: string, update: Partial<SinhVien>){
-        return this.UpdateOne({UserName}, {$set: update});
+    UpdateOneSinhVienByUsername(UserName: string, update: Partial<SinhVien>, session?:ClientSession){
+        return this.UpdateOne({UserName}, {$set: update}, session ? {session}: undefined);
     }
 
     // Hàm dùng để xoá thông tin của một sinh viên
-    DeleteOneSinhVien(MasoSinhVien: string) { return this.DeleteOne({MasoSinhVien}); }
+    DeleteOneSinhVien(MasoSinhVien: string, session?:ClientSession) { return this.DeleteOne({MasoSinhVien}, session ? {session}: undefined); }
 
 }

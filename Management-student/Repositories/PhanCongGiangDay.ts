@@ -1,5 +1,6 @@
 import { getCollection } from "../ConnectDatabase/ConnectDatabase";
 import { BaseConnection } from "./BaseConnection";
+import { ClientSession } from "mongodb";
 
 export interface PhanCongGiangDay{
 
@@ -16,7 +17,7 @@ export class PhanCongGiangDayRepositories extends BaseConnection<PhanCongGiangDa
     constructor() { super(getCollection<PhanCongGiangDay>("PhanCongGiangDay")); }
 
     // Hàm dùng để phân công giảng dạy
-    CreateOnePhanCongGiangDay(phanconggiangday: PhanCongGiangDay){ return this.CreateOne(phanconggiangday); }
+    CreateOnePhanCongGiangDay(phanconggiangday: PhanCongGiangDay, session?:ClientSession){ return this.CreateOne(phanconggiangday, session ? {session}: undefined); }
 
     // Hàm dùng để tìm kiếm thông tin giảng dạy của một lớp nào đó trong databse
     FindOnePhanCongGiangDay(MaSoGiangVien: string, MaLopHocPhan: string) { return this.FindOne({MaSoGiangVien, MaLopHocPhan}); }
@@ -27,8 +28,8 @@ export class PhanCongGiangDayRepositories extends BaseConnection<PhanCongGiangDa
     FindAllPhanCongGiangDay() {return this.FindAll(); }
 
     // Hàm dùng để cập nhập thông tin cho một lớp giảng dạy
-    UpdateOnePhanCongGiangDay(MaLopHocPhan: string, update: Partial<PhanCongGiangDay>) { return this.UpdateOne({MaLopHocPhan}, {$set: update}); }
+    UpdateOnePhanCongGiangDay(MaLopHocPhan: string, update: Partial<PhanCongGiangDay>, session?:ClientSession) { return this.UpdateOne({MaLopHocPhan}, {$set: update}, session ? {session}: undefined); }
 
     // Hàm dùng để xoá thông tin của một lớp giảng dạy
-    DeleteOnePhanCongGiangDay(MaSoGiangVien: string, MaLopHocPhan: string){ return this.DeleteOne({MaSoGiangVien, MaLopHocPhan})}
+    DeleteOnePhanCongGiangDay(MaSoGiangVien: string, MaLopHocPhan: string, session?:ClientSession){ return this.DeleteOne({MaSoGiangVien, MaLopHocPhan}, session ? {session}: undefined)}
 }
